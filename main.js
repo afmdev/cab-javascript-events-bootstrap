@@ -28,12 +28,24 @@ function cargarImages() {
         divCard.className = "card"
         divCard.id = "card-" + i
 
+        
         let imgLink = document.createElement("a")
         imgLink.id = "img-link"
         imgLink.setAttribute("href", "#exampleModal")
         imgLink.setAttribute("data-bs-toggle", "modal")
         imgLink.setAttribute("data-bs-target","#exampleModal")
+        
+        // VIEWS BADGE
+        let divCardBadgeViews = document.createElement("span")
+        divCardBadgeViews.className = "badge rounded-pill bg-dark views"
+        divCardBadgeViews.innerHTML = "<i class='fa fa-eye'> </i> " + data[i].views
+        let divCardBadgeLikes = document.createElement("span")
+        divCardBadgeLikes.className = "badge rounded-pill bg-dark likes"
+        divCardBadgeLikes.innerHTML = "<i class='fa fa-heart'> </i> " + data[i].likes
 
+        // let divBadgeIcon = document.createElement("i")
+        // overlayIcon.className = "fa fa-user"
+        // divBadgeIcon.className = "fa fa-eye"
 
 
         let imgCard = document.createElement("img")
@@ -47,26 +59,30 @@ function cargarImages() {
         let overlayIcon = document.createElement("i")
         // overlayIcon.className = "fa fa-user"
         overlayIcon.className = "fa fa-plus"
+
+        // let overlayIcon = document.createElement("div")
+        // // overlayIcon.className = "fa fa-user"
+        // overlayIcon.innerHTML = "<lottie-player src='https://assets6.lottiefiles.com/packages/lf20_mgqdbqbs.json' background='transparent' speed='1' style='width: 100px; height: 100px;' loop autoplay></lottie-player>"
     
         let divCardBody = document.createElement("div")
         divCardBody.className = "card-body"
 
-        let divCollapsableButton = document.createElement("a")
-        divCollapsableButton.className = "btn btn-primary"
-        divCollapsableButton.setAttribute("data-bs-toggle", "collapse")
-        divCollapsableButton.setAttribute("href", "#collapseImgInfo-" + i)
-        divCollapsableButton.setAttribute("role", "button")
-        divCollapsableButton.setAttribute("aria-expanded", "false")
-        divCollapsableButton.setAttribute("aria-controls", "collapseImgInfo-" + i)
-        divCollapsableButton.innerHTML = "Read More"
+
+        // Elementos para crear botón "Read More", pero con Masonry no funciona
+        // let divCollapsableButton = document.createElement("a")
+        // divCollapsableButton.className = "btn btn-primary"
+        // divCollapsableButton.setAttribute("data-bs-toggle", "collapse")
+        // divCollapsableButton.setAttribute("href", "#collapseImgInfo-" + i)
+        // divCollapsableButton.setAttribute("role", "button")
+        // divCollapsableButton.setAttribute("aria-expanded", "false")
+        // divCollapsableButton.setAttribute("aria-controls", "collapseImgInfo-" + i)
+        // divCollapsableButton.innerHTML = "Read More"
+
+        // let divCollapsableContainer = document.createElement("div")
+        // divCollapsableContainer.className = "collapse"
+        // divCollapsableContainer.id = "collapseImgInfo-" + i
 
 
-        let divCollapsableContainer = document.createElement("div")
-        divCollapsableContainer.className = "collapse"
-        divCollapsableContainer.id = "collapseImgInfo-" + i
-
-        
-    
         let titleCardBody = document.createElement("h5")
         titleCardBody.className = "card-title"
         titleCardBody.innerHTML = data[i].user
@@ -84,17 +100,26 @@ function cargarImages() {
 
         divContainer.appendChild(divCardContainer) //en divContainer, mete divCardContainer
         divCardContainer.appendChild(divCard) //en divCardContainer, mete divCard
+        imgLink.appendChild(divCardBadgeViews)
+        imgLink.appendChild(divCardBadgeLikes)
+        // divCardBadgeViews.appendChild(divBadgeIcon)
         divCard.appendChild(imgLink) //en divCard, mete imgLink
         imgLink.appendChild(imgCard)
         imgLink.appendChild(imgOverlay) //en imgLink, mete imgOverlay
         imgOverlay.appendChild(overlayIcon) //en imgOverlay, mete overlayIcon
-        divCard.appendChild(divCardBody)
-        divCardBody.appendChild(divCollapsableButton)
-        divCardBody.appendChild(divCollapsableContainer)
-        divCollapsableContainer.appendChild(titleCardBody)
-        divCollapsableContainer.appendChild(textCardBody)
 
-        divCollapsableContainer.appendChild(buttonCardBody)
+
+        divCard.appendChild(divCardBody) //en divCard, meto divCardBody
+        divCardBody.appendChild(titleCardBody) //en divCardBody, meto titleCardBody 
+        divCardBody.appendChild(textCardBody) //en divCardBody, meto textCardBody
+        divCardBody.appendChild(buttonCardBody) //en divCardBody, meto buttonCardBody
+
+        // appenChild para botón "Read More" pero no funciona con Masonry
+        // divCardBody.appendChild(divCollapsableButton)
+        // divCardBody.appendChild(divCollapsableContainer)
+        // divCollapsableContainer.appendChild(titleCardBody)
+        // divCollapsableContainer.appendChild(textCardBody)
+        // divCollapsableContainer.appendChild(buttonCardBody)
     }
 // }
 
@@ -113,40 +138,32 @@ cargarImages()
 loadMasonry()
 
 
+let myModalContent = document.getElementById("myModalContent")
+let myModalTitle = document.createElement("img")
+let myModalTitleName = document.createElement("h5")
 
-let myModal = document.getElementById("myModal");
+let myModalBody = document.getElementById("myModalBody");
 let myModalImg = document.createElement("img")
+
+let myModalClose = document.createElement("button")
+myModalClose.setAttribute("type", "button")
+myModalClose.className = "btn-close"
+myModalClose.setAttribute("data-bs-dismiss", "modal")
+myModalClose.setAttribute("aria-label", "Close")
+
+    
 
 for (let i = 0; i < data.length; i++) { 
     document.getElementById("card-" + i).addEventListener('click', function () {
+        myModalTitle.src = data[i].userImageURL
+        myModalContent.appendChild(myModalTitle)
+        myModalContent.appendChild(myModalTitleName).innerHTML = data[i].user
+        myModalContent.appendChild(myModalClose)
+
         myModalImg.src = data[i].largeImageURL
         myModalImg.setAttribute("width", "100%") 
-        myModal.appendChild(myModalImg)
+        myModalBody.appendChild(myModalImg)
     })
-}
-
-function toggleClass(el, className) {
-var el = document.querySelectorAll(el);
-
-for (i = 0; i < el.length; i++) {
-    if (el[i].classList) {
-        el[i].classList.toggle(className);
-    } else {
-        var classes = el[i].className.split(' ');
-        var existingIndex = -1;
-        for (var j = classes.length; j--;) {
-            if (classes[j] === className)
-            existingIndex = j;
-        }
-
-        if (existingIndex >= 0)
-            classes.splice(existingIndex, 1);
-        else
-            classes.push(className);
-
-        el[i].className = classes.join(' ');
-    }
-    }
 }
 
 
