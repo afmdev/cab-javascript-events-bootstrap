@@ -109,10 +109,10 @@ function cargarImages() {
         imgOverlay.appendChild(overlayIcon) //en imgOverlay, mete overlayIcon
 
 
-        divCard.appendChild(divCardBody) //en divCard, meto divCardBody
-        divCardBody.appendChild(titleCardBody) //en divCardBody, meto titleCardBody 
-        divCardBody.appendChild(textCardBody) //en divCardBody, meto textCardBody
-        divCardBody.appendChild(buttonCardBody) //en divCardBody, meto buttonCardBody
+        // divCard.appendChild(divCardBody) //en divCard, meto divCardBody
+        // divCardBody.appendChild(titleCardBody) //en divCardBody, meto titleCardBody 
+        // divCardBody.appendChild(textCardBody) //en divCardBody, meto textCardBody
+        // divCardBody.appendChild(buttonCardBody) //en divCardBody, meto buttonCardBody
 
         // appenChild para botón "Read More" pero no funciona con Masonry
         // divCardBody.appendChild(divCollapsableButton)
@@ -139,8 +139,11 @@ loadMasonry()
 
 
 let myModalContent = document.getElementById("myModalContent")
+let myTags = document.getElementById("myModalTags")
 let myModalTitle = document.createElement("img")
 let myModalTitleName = document.createElement("h5")
+let myModalTags = document.createElement("div")
+myModalTags.className = "tags"
 
 let myModalBody = document.getElementById("myModalBody");
 let myModalImg = document.createElement("img")
@@ -151,18 +154,35 @@ myModalClose.className = "btn-close"
 myModalClose.setAttribute("data-bs-dismiss", "modal")
 myModalClose.setAttribute("aria-label", "Close")
 
-    
 
 for (let i = 0; i < data.length; i++) { 
     document.getElementById("card-" + i).addEventListener('click', function () {
-        myModalTitle.src = data[i].userImageURL
-        myModalContent.appendChild(myModalTitle)
-        myModalContent.appendChild(myModalTitleName).innerHTML = data[i].user
-        myModalContent.appendChild(myModalClose)
 
-        myModalImg.src = data[i].largeImageURL
-        myModalImg.setAttribute("width", "100%") 
-        myModalBody.appendChild(myModalImg)
+        if (data[i].userImageURL == "") {
+            myModalTitle.src = "img/nopicture.png"
+            myModalContent.appendChild(myModalTitle)
+            myModalContent.appendChild(myModalTitleName).innerHTML = data[i].user
+            myTags.appendChild(myModalTags).innerHTML = "Tags: " + data[i].tags
+
+            myModalContent.appendChild(myModalClose)
+    
+            myModalImg.src = data[i].largeImageURL
+            myModalImg.setAttribute("width", "100%") 
+            myModalBody.appendChild(myModalImg)
+
+        } else {
+            myModalTitle.src = data[i].userImageURL
+            myModalContent.appendChild(myModalTitle)
+            myModalContent.appendChild(myModalTitleName).innerHTML = data[i].user
+            myTags.appendChild(myModalTags).innerHTML = "Tags: " + data[i].tags
+
+            myModalContent.appendChild(myModalClose)
+    
+            myModalImg.src = data[i].largeImageURL
+            myModalImg.setAttribute("width", "100%") 
+            myModalBody.appendChild(myModalImg)
+        }
+
     })
 }
 
