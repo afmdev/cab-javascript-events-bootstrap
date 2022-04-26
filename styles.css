@@ -12,6 +12,11 @@
     filter: blur(2px);
 } */
 
+.input-group {
+    justify-content: center;
+    flex-direction: row;
+}
+
 .overlay {
     position: absolute;
     top: 0;

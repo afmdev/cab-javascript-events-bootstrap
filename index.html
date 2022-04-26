@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,125 +14,102 @@
 
     <title>Javascript Events & Bootstrap</title>
 </head>
-    <body>
-        <!-- NAV BAR MENU  -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container">
-                <a class="navbar-brand" href="#"><img src="./img/afm.png" alt="afm:berlin" width="50" height="50"></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/index.html">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/data.html">Data API</a>
-                        </li>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/contact.html">Contact</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Dropdown
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            </ul>
-                        </li>
 
-                    </ul>
-                    <form class="d-flex">
-                        <input class="form-control form-control-sm me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-light btn-sm" type="submit">Search</button>
-                    </form>
-                </div>
-            </div>
-        </nav>
-        <!-- END NAV BAR MENU  -->
-
-
-
-
-
-
-
-
-        <!-- MAIN CONTENT -->
+<body>
+    <!-- NAV BAR MENU  -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <h1 class="text-center m-5">Javascript Events & Bootstrap</h1>
+            <a class="navbar-brand" href="#"><img src="./img/afm.png" alt="afm:berlin" width="50" height="50"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/data.html">Data API</a>
+                    </li>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact.html">Contact</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Dropdown
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </li>
 
-            <div class="input-group search-bar jumbotron">
-                <input type="text" id="buscar" class="form-control" placeholder="Search a image"
-                    aria-label="Search a image">
-                <input class="btn btn-outline-secondary" type="button" value="Go" onclick="buscarImagen()"></input>
+                </ul>
+                <form class="d-flex">
+                    <input class="form-control form-control-sm me-2" type="search" placeholder="Search"
+                        aria-label="Search">
+                    <button class="btn btn-outline-light btn-sm" type="submit">Search</button>
+                </form>
             </div>
+        </div>
+    </nav>
+    <!-- END NAV BAR MENU  -->
 
-            <!-- <div class="text-end">  -->
-                <div class="filter-container">  
-                    <a class="btn btn-danger btn-sm filter-button" data-bs-toggle="offcanvas" href="#offcanvasRight" role="button"
-                        aria-controls="offcanvasRight">
-                        Filters
-                    </a>
-                    <select style="width: 150px" class="form-select form-select-sm me-2 filter-button" aria-label="form-select-sm">
-                        <option selected>Sorting</option>
-                        <option value="0">🏆 Popular</option>
-                        <option value="1">⭐ Best Rated</option>
-                        <option value="2">⬆️ Price (Ascending)</option>
-                        <option value="3">⬇️ Price (Descending)</option>
-                    </select>
-                </div>
-              
-            <!-- </div> -->
-            
-<!-- 
-            <a class="btn btn-primary btn-sm" data-bs-toggle="collapse" href="#myButton" role="button" aria-expanded="false"
-                aria-controls="myButton">
-                Read more?
+
+
+    <!-- MAIN CONTENT -->
+    <div class="container">
+        <h1 class="text-center m-5">Javascript Events & Bootstrap</h1>
+
+        <div class="input-group search-bar">
+            <input type="text" id="search" class="form-control" placeholder="Search a image"
+                aria-label="Search a image">
+            <input class="btn btn-outline-secondary" type="button" value="Go"></input>
+        </div>
+
+        <!-- <div class="text-end">  -->
+        <div class="filter-container">
+            <a class="btn btn-danger btn-sm filter-button" data-bs-toggle="offcanvas" href="#offcanvasRight"
+                role="button" aria-controls="offcanvasRight">
+                Filters
             </a>
-            <div class="collapse" id="myButton">
-                <div><p>Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger. Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger. Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.</p></div>
-                <div class="filters">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-4">
-                                Column
-                            </div>
-                            <div class="col-md-4">
-                                Column
-                            </div>
-                            <div class="col-md-4">
-                                Column
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
+        </a>
+        <select style="width: 150px" id="filter-select" onchange="selectFilter()" class="form-select form-select-sm me-2 filter-button" aria-label="form-select-sm">
+            <option selected>Sorting</option>
+            <option value="0">🏆 Popular</option>
+            <option value="1">⭐ Best Rated</option>
+            <option value="2">⬆️ Price (Ascending)</option>
+            <option value="3">⬇️ Price (Descending)</option>
+        </select>
+        <select style="width: 70px" id="filter-numItems" onchange="selectShowItems()" class="form-select form-select-sm me-2 filter-button" aria-label="form-select-sm">
+            <option value="0" selected>3</option>
+            <option value="1">6</option>
+            <option value="2">9</option>
+            <option value="3">12</option>
+        </select>
         </div>
+    </div>
 
 
 
 
 
 
-        <!-- ITEMS OF MY GRID -->
-        <div class="container">
-            <div id="api-data" class="row my-3">
-        </div>
+    <!-- ITEMS OF MY GRID -->
+    <div class="container">
+        <div id="api-data" class="row my-3"></div>
         <!-- END ITEMS OF MY GRID -->
 
     <nav>
-        <ul class="pagination justify-content-center" id="pagination">
-        </ul>
+        <ul class="pagination justify-content-center" id="pagination"></ul>
     </nav>
 
 
@@ -140,10 +118,12 @@
 
         <!-- TOGGLE BOTTOM OFFCANVAS -->
         <div class="container">
-            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight"
+                aria-labelledby="offcanvasRightLabel">
                 <div class="offcanvas-header">
                     <h5 id="offcanvasRightLabel">Apply a filter</h5>
-                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
                 </div>
                 <div class="offcanvas-body">
 
@@ -152,13 +132,16 @@
                     <nav class="collapse bd-filters">
                         <ul class="list-unstyled mb-0 py-3 pt-md-1">
                             <li class="">
-                                <button class="btn d-inline-flex align-items-center rounded" data-bs-toggle="collapse" data-bs-target="#type-images" aria-expanded="true">Type of image</button>
+                                <button class="btn d-inline-flex align-items-center rounded" data-bs-toggle="collapse"
+                                    data-bs-target="#type-images" aria-expanded="true">Type of image</button>
                                 <div class="collapse show" id="type-images">
                                     <ul class="list-unstyled fw-normal pb-1 small">
                                         <li><a href="#" class="d-inline-flex align-items-center rounded">All</a></li>
                                         <li><a href="#" class="d-inline-flex align-items-center rounded">Photos</a></li>
-                                        <li><a href="#" class="d-inline-flex align-items-center rounded">Illustrations</a></li>
-                                        <li><a href="#" class="d-inline-flex align-items-center rounded">Vectors</a></li>
+                                        <li><a href="#"
+                                                class="d-inline-flex align-items-center rounded">Illustrations</a></li>
+                                        <li><a href="#" class="d-inline-flex align-items-center rounded">Vectors</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </li>
@@ -170,8 +153,10 @@
                                     data-bs-target="#orientation" aria-expanded="true">Orientation</button>
                                 <div class="collapse show" id="orientation">
                                     <ul class="list-unstyled fw-normal pb-1 small">
-                                        <li><a href="#" class="d-inline-flex align-items-center rounded">Vertical</a></li>
-                                        <li><a href="#" class="d-inline-flex align-items-center rounded">Horizontal</a></li>
+                                        <li><a href="#" class="d-inline-flex align-items-center rounded">Vertical</a>
+                                        </li>
+                                        <li><a href="#" class="d-inline-flex align-items-center rounded">Horizontal</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </li>
@@ -256,15 +241,15 @@
                     </nav>
 
 
-                    
+
                 </div>
             </div>
         </div>
-        
+
         <!-- END TOGGLE BOTTOM OFFCANVAS -->
 
         <div class="error" id="msg-error"></div>
-        
+
         <!-- MODAL -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -283,5 +268,6 @@
         <!-- <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.js"></script> -->
         <script src="./data.js"></script>
         <script src="./main.js"></script>
-    </body>
+</body>
+
 </html>
