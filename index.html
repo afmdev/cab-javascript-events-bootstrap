@@ -60,25 +60,40 @@
         <!-- END NAV BAR MENU  -->
 
 
+
+
+
+
+
+
         <!-- MAIN CONTENT -->
         <div class="container">
             <h1 class="text-center m-5">Javascript Events & Bootstrap</h1>
-            <div class="text-end"> 
-                
-                <a class="btn btn-danger btn-sm pull-right" data-bs-toggle="offcanvas" href="#offcanvasRight" role="button"
-                    aria-controls="offcanvasRight">
-                    Filters
-                </a>
-                <select style="width: 150px" class="form-select form-select-sm pull-right me-2" aria-label="form-select-sm">
-                    <option selected>Sorting</option>
-                    <option value="0">🏆 Popular</option>
-                    <option value="1">⭐ Best Rated</option>
-                    <option value="2">⬆️ Price (Ascending)</option>
-                    <option value="3">⬇️ Price (Descending)</option>
-                </select>
+
+            <div class="input-group search-bar jumbotron">
+                <input type="text" id="buscar" class="form-control" placeholder="Search a image"
+                    aria-label="Search a image">
+                <input class="btn btn-outline-secondary" type="button" value="Go" onclick="buscarImagen()"></input>
             </div>
 
-
+            <!-- <div class="text-end">  -->
+                <div class="filter-container">  
+                    <a class="btn btn-danger btn-sm filter-button" data-bs-toggle="offcanvas" href="#offcanvasRight" role="button"
+                        aria-controls="offcanvasRight">
+                        Filters
+                    </a>
+                    <select style="width: 150px" class="form-select form-select-sm me-2 filter-button" aria-label="form-select-sm">
+                        <option selected>Sorting</option>
+                        <option value="0">🏆 Popular</option>
+                        <option value="1">⭐ Best Rated</option>
+                        <option value="2">⬆️ Price (Ascending)</option>
+                        <option value="3">⬇️ Price (Descending)</option>
+                    </select>
+                </div>
+              
+            <!-- </div> -->
+            
+<!-- 
             <a class="btn btn-primary btn-sm" data-bs-toggle="collapse" href="#myButton" role="button" aria-expanded="false"
                 aria-controls="myButton">
                 Read more?
@@ -100,7 +115,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
 
 
@@ -110,12 +125,14 @@
 
         <!-- ITEMS OF MY GRID -->
         <div class="container">
-            <div id="api-data" class="row  my-3" data-masonry='{"percentPosition": false }' style="position: relative; height: 1068px;">
+            <div id="api-data" class="row my-3">
         </div>
         <!-- END ITEMS OF MY GRID -->
 
-
-
+    <nav>
+        <ul class="pagination justify-content-center" id="pagination">
+        </ul>
+    </nav>
 
 
 
@@ -167,10 +184,6 @@
                                 <div class="collapse show" id="color">
                                     <div class="color-form">
                                         <form action="" method="get">
-                                            <label class="checkLabel--1XEOP">
-                                                <input type="checkbox" name="transparent" value="transparent">Transparent</label>
-                                            <label class="checkLabel--1XEOP">
-                                                <input type="checkbox" name="greyscale" value="greyscale">Black and white</label>
 
                                             <div class="grid-colors">
                                                 <label class="color-select red">
@@ -212,7 +225,7 @@
 
                                             </div>
                                             <div class="submit-container">
-                                                <button class="submit-button">Go</button>
+                                                <button class="submit-button">Apply Filter</button>
                                             </div>
                                         </form>
                                     </div>
@@ -250,7 +263,7 @@
         
         <!-- END TOGGLE BOTTOM OFFCANVAS -->
 
-
+        <div class="error" id="msg-error"></div>
         
         <!-- MODAL -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -267,7 +280,7 @@
 
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+        <!-- <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.js"></script> -->
         <script src="./data.js"></script>
         <script src="./main.js"></script>
     </body>
