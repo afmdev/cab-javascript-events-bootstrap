@@ -12,8 +12,8 @@ async function handleInitialLoad() {
     const data = await getData(url);
     setState(data);
 
-    const uerNames = getUserNames(getState());
-    insertAuthorDOM(uerNames);
+    const userNames = getUserNames(getState());
+    insertAuthorDOM(userNames);
 
     const imageType = getImageType(getState());
     insertImageTypeDOM(imageType);
