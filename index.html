@@ -70,31 +70,22 @@
         <h1 class="text-center m-5">Javascript Events & Bootstrap</h1>
 
         <div class="input-group search-bar">
-            <input type="text" id="search" class="form-control" placeholder="Search a image"
+            <input type="text" class="form-control" placeholder="Search a image"
                 aria-label="Search a image">
-            <input class="btn btn-outline-secondary" type="button" value="Go"></input>
+            <!-- <input class="btn btn-outline-secondary" type="button" value="Go"></input> -->
         </div>
 
-        <!-- <div class="text-end">  -->
-        <div class="filter-container">
+
+
+        <div class="text-end">
+            <div class="filter-container">
             <a class="btn btn-danger btn-sm filter-button" data-bs-toggle="offcanvas" href="#offcanvasRight"
                 role="button" aria-controls="offcanvasRight">
                 Filters
             </a>
         </a>
-        <select style="width: 150px" id="filter-select" onchange="selectFilter()" class="form-select form-select-sm me-2 filter-button" aria-label="form-select-sm">
-            <option selected>Sorting</option>
-            <option value="0">🏆 Popular</option>
-            <option value="1">⭐ Best Rated</option>
-            <option value="2">⬆️ Price (Ascending)</option>
-            <option value="3">⬇️ Price (Descending)</option>
-        </select>
-        <select style="width: 70px" id="filter-numItems" onchange="selectShowItems()" class="form-select form-select-sm me-2 filter-button" aria-label="form-select-sm">
-            <option value="0" selected>3</option>
-            <option value="1">6</option>
-            <option value="2">9</option>
-            <option value="3">12</option>
-        </select>
+        
+
         </div>
     </div>
 
@@ -133,16 +124,20 @@
                         <ul class="list-unstyled mb-0 py-3 pt-md-1">
                             <li class="">
                                 <button class="btn d-inline-flex align-items-center rounded" data-bs-toggle="collapse"
+                                    data-bs-target="#by-author" aria-expanded="true">By Author</button>
+                                <div class="collapse show" id="by-author">
+                                    <select style="width: 200px" id="filter-select" class="form-select form-select-sm me-2  select-author" aria-label="form-select-sm"></select>
+                                </div>
+                            </li>
+                        </ul>
+
+                        <ul class="list-unstyled mb-0 py-3 pt-md-1">
+                            <li class="">
+                                <button class="btn d-inline-flex align-items-center rounded" data-bs-toggle="collapse"
                                     data-bs-target="#type-images" aria-expanded="true">Type of image</button>
-                                <div class="collapse show" id="type-images">
-                                    <ul class="list-unstyled fw-normal pb-1 small">
-                                        <li><a href="#" class="d-inline-flex align-items-center rounded">All</a></li>
-                                        <li><a href="#" class="d-inline-flex align-items-center rounded">Photos</a></li>
-                                        <li><a href="#"
-                                                class="d-inline-flex align-items-center rounded">Illustrations</a></li>
-                                        <li><a href="#" class="d-inline-flex align-items-center rounded">Vectors</a>
-                                        </li>
-                                    </ul>
+                                <div class="collapse show" id="by-type">
+                                    <select style="width: 200px" id="filter-select" class="form-select form-select-sm me-2  select-type"
+                                        aria-label="form-select-sm"></select>
                                 </div>
                             </li>
                         </ul>
@@ -214,44 +209,17 @@
                                             </div>
                                         </form>
                                     </div>
-
-
-
-
-                                    <!-- <ul class="list-unstyled fw-normal pb-1 small">
-                                        <li><a href="#" class="d-inline-flex align-items-center rounded">Red</a></li>
-                                        <li><a href="#" class="d-inline-flex align-items-center rounded">Orange</a></li>
-                                        <li><a href="#" class="d-inline-flex align-items-center rounded">Yellow</a></li>
-                                        <li><a href="#" class="d-inline-flex align-items-center rounded">Green</a></li>
-                                        <li><a href="#" class="d-inline-flex align-items-center rounded">Blue</a></li>
-                                        <li><a href="#" class="d-inline-flex align-items-center rounded">Lilac</a></li>
-                                        <li><a href="#" class="d-inline-flex align-items-center rounded">Pink</a></li>
-                                        <li><a href="#" class="d-inline-flex align-items-center rounded">White</a></li>
-                                        <li><a href="#" class="d-inline-flex align-items-center rounded">Gray</a></li>
-                                        <li><a href="#" class="d-inline-flex align-items-center rounded">Black</a></li>
-                                        <li><a href="#" class="d-inline-flex align-items-center rounded">Brown</a></li>
-                                    </ul> -->
                                 </div>
                             </li>
                         </ul>
-
-
-
-
                     </nav>
-
-
-
                 </div>
             </div>
         </div>
-
         <!-- END TOGGLE BOTTOM OFFCANVAS -->
-
         <div class="error" id="msg-error"></div>
-
         <!-- MODAL -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="exampleModal" tabindex="-1"aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div id="myModalContent" class="modal-header"></div>
@@ -261,13 +229,12 @@
             </div>
         </div>
         <!-- END MODAL -->
-
-
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.js"></script> -->
         <script src="./data.js"></script>
         <script src="./main.js"></script>
+        <!-- <script src="./old_main.js"></script> -->
 </body>
 
 </html>

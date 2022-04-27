@@ -1,156 +1,135 @@
-let baseUrl = "https://pixabay.com/api/?key=26639219-c988cadef2f5d334da840ad52"
+const url = 'https://pixabay.com/api/?key=26639219-c988cadef2f5d334da840ad52&per_page=51';
+// const url = 'https://communityoneapi.herokuapp.com/projects';
 
+async function getData(url) {
+const response = await fetch(url);
+const data = await response.json();
+return data;
+}
 
+async function handleInitialLoad() {
+    const data = await getData(url);
+    setState(data);
 
+    const imageAuthor = getUserNames(getState());
+    createSelectAuthor(imageAuthor);
 
-fetch(baseUrl)
-    .then(res => res.json()) // convert data from the api to a json
-    .then(data => showMyData(data.hits))  //creamos la funcion showMyData
-    .catch(error => console.log(error))
+    const imageType = getImageType(getState());
+    createSelectImageType(imageType);
 
+    insertImages(getState());
     
-const showMyData = (data) => {
-    createGrid(data)
-    createModal(data)
-}       
-
-
-function createURL(value) {
-    let itemsPage = document.querySelector("#itemsPage").value
-
-    var key = '26639219-c988cadef2f5d334da840ad52';
-    var api = 'https://pixabay.com/api/?key=' + key;
-    var keyword = '&q=' + encodeURIComponent(value);
-    var option = `&orientation=horizontal&per_page=${itemsPage}&page=${currentPage}`;
-    var url = api + keyword + option;
-
-    return url;
 }
 
+const imgContainer = document.querySelector('#api-data');
+const searchField = document.querySelector('.search-bar');
+const selectAuthor = document.querySelector('.select-author');
+const selectType = document.querySelector('.select-type');
+
+window.addEventListener('DOMContentLoaded', handleInitialLoad);
+searchField.addEventListener('keyup', handleSearchInputChange);
+selectAuthor.addEventListener('change', handleSelectAuthor);
+selectType.addEventListener('change', handleSelectType);
+
+function useState() {
+let _state = null;
+function getState() {return _state;}
+function setState(data) {_state = [...data.hits];}
+return [getState, setState];
+}
+const [getState, setState] = useState();
 
 
-function createGrid(data) {
-    let divContainer = document.getElementById("api-data")
-    for (let i = 0; i < data.length; i++) {
+function insertImages(data) {
+let items = data.map((item) => cardTemplate(item)).join('');
+imgContainer.innerHTML = items;
+}
 
-        let divCardContainer = document.createElement("div")
-        divCardContainer.className = "col-sm-6 col-lg-4 mb-4"
-
-        let divCard = document.createElement("div")
-        divCard.className = "card"
-        divCard.id = "card-" + i
-
+function cardTemplate(data) {
+    const { hits, id, user, likes, views, webformatURL, userImageURL } = data;
+    return `
     
-        let imgLink = document.createElement("a")
-        imgLink.id = "img-link"
-        imgLink.setAttribute("href", "#exampleModal")
-        imgLink.setAttribute("data-bs-toggle", "modal")
-        imgLink.setAttribute("data-bs-target", "#exampleModal")
-    
-        // VIEWS BADGE
-        let divCardBadgeViews = document.createElement("span")
-        divCardBadgeViews.className = "badge rounded-pill bg-dark views"
-        divCardBadgeViews.innerHTML = "<i class='fa fa-eye'> </i> " + data[i].views
-        let divCardBadgeLikes = document.createElement("span")
-        divCardBadgeLikes.className = "badge rounded-pill bg-dark likes"
-        divCardBadgeLikes.innerHTML = "<i class='fa fa-heart'> </i> " + data[i].likes
-
-
-
-        let imgCard = document.createElement("img")
-        imgCard.className = "card-img-top"
-        imgCard.setAttribute("src", data[i].webformatURL)
-        imgCard.alt = data[i].user
-
-        let imgOverlay = document.createElement("div")
-        imgOverlay.className = "overlay"
-
-        let overlayIcon = document.createElement("i")
-        overlayIcon.className = "fa fa-plus"
-
-        let divCardBody = document.createElement("div")
-        divCardBody.className = "card-body"
-
-        let titleCardBody = document.createElement("h5")
-        titleCardBody.className = "card-title"
-        titleCardBody.innerHTML = data[i].user
-
-        let textCardBody = document.createElement("p")
-        textCardBody.className = "card-text"
-        textCardBody.innerHTML = data[i].type
-
-        let buttonCardBody = document.createElement("a")
-        buttonCardBody.setAttribute("href", data[i].pageURL)
-        buttonCardBody.className = "btn btn-primary"
-        buttonCardBody.setAttribute("target", "_blank")
-        buttonCardBody.innerHTML = "Open the original"
-
-
-        divContainer.appendChild(divCardContainer) //en divContainer, mete divCardContainer
-        divCardContainer.appendChild(divCard) //en divCardContainer, mete divCard
-        imgLink.appendChild(divCardBadgeViews)
-        imgLink.appendChild(divCardBadgeLikes)
-        // divCardBadgeViews.appendChild(divBadgeIcon)
-        divCard.appendChild(imgLink) //en divCard, mete imgLink
-        imgLink.appendChild(imgCard)
-        imgLink.appendChild(imgOverlay) //en imgLink, mete imgOverlay
-        imgOverlay.appendChild(overlayIcon) //en imgOverlay, mete overlayIcon
-    }
+    <div class="col-sm-3 mb-4">
+        <div class="card" id="${data.id}">
+            <a id="img-link" 
+            href="#exampleModal" 
+            data-bs-toggle="modal" 
+            data-bs-target="#exampleModal">
+                <span class="badge rounded-pill bg-dark views"><i class="fa fa-eye"> </i> ${data.views}</span>
+                <span class="badge rounded-pill bg-dark likes"><i class="fa fa-heart"> </i> ${data.likes}</span>
+                <img class="card-img-top" src="${data.webformatURL}" alt="${data.user}">
+                <div class="overlay"><i class="fa fa-plus"></i></div>
+            </a>
+        </div>
+    </div>`;
 }
 
 
-function createModal(data) {
-    for (let i = 0; i < data.length; i++) {
-        document.getElementById("card-" + i).addEventListener('click', function () {
-            if (data[i].userImageURL == "") {
-                myModalTitle.src = "img/nopicture.png"
-                myModalContent.appendChild(myModalTitle)
-                myModalContent.appendChild(myModalTitleName).innerHTML = data[i].user
-                myTags.appendChild(myModalTags).innerHTML = "Tags: " + data[i].tags
-                myModalContent.appendChild(myModalClose)
-                myModalImg.src = data[i].largeImageURL
-                myModalImg.setAttribute("width", "100%")
-                myModalBody.appendChild(myModalImg)
-            } else {
-                myModalTitle.src = data[i].userImageURL
-                myModalContent.appendChild(myModalTitle)
-                myModalContent.appendChild(myModalTitleName).innerHTML = data[i].user
-                myTags.appendChild(myModalTags).innerHTML = "Tags: " + data[i].tags
-                myModalContent.appendChild(myModalClose)
-                myModalImg.src = data[i].largeImageURL
-                myModalImg.setAttribute("width", "100%")
-                myModalBody.appendChild(myModalImg)
-            }
-        })
-    }
-
-    let myModalContent = document.getElementById("myModalContent")
-    let myTags = document.getElementById("myModalTags")
-    let myModalTitle = document.createElement("img")
-    let myModalTitleName = document.createElement("h5")
-    let myModalTags = document.createElement("div")
-    myModalTags.className = "tags"
-
-    let myModalBody = document.getElementById("myModalBody");
-    let myModalImg = document.createElement("img")
-
-    let myModalClose = document.createElement("button")
-    myModalClose.setAttribute("type", "button")
-    myModalClose.className = "btn-close"
-    myModalClose.setAttribute("data-bs-dismiss", "modal")
-    myModalClose.setAttribute("aria-label", "Close")
+// GET USER NAMES FROM DATA
+function getUserNames(data) {
+    const users = data.map((item) => item.user);
+    const uniqUserNames = [...new Set(users)];
+    return uniqUserNames;
 }
 
-    
-
-function filterNumItems() {
-    const selectFilter = document.getElementById('filter-select').value;
-    console.log(selectFilter);
+// GET IMAGE TYPE FROM DATA
+function getImageType(data) {
+    const types = data.map((item) => item.type);
+    const uniqImageType = [...new Set(types)];
+    return uniqImageType;
 }
-filterNumItems()
 
-function filterBestOnes() {
-    const selectShowItems = document.getElementById('filter-numItems').value;
-    console.log(selectShowItems);
+function handleSearchInputChange(e) {
+    const value = e.target.value.toLowerCase();
+    const data = getState();
+    const filteredItems = data.filter((item) =>
+        item.user.toLowerCase().includes(value)
+    );
+    insertImages(filteredItems);
 }
-filterBestOnes()
+
+
+function handleSelectAuthor(e) {
+const value = e.currentTarget.value.toLowerCase();
+const data = getState();
+const filteredItems = data.filter((item) =>
+value.toLowerCase() === 'all'
+    ? item
+    : item.user.toLowerCase() === value.toLowerCase()
+);
+insertImages(filteredItems);
+}
+
+
+function handleSelectType(e) {
+const value = e.currentTarget.value.toLowerCase();
+const data = getState();
+const filteredItems = data.filter((item) =>
+value.toLowerCase() === 'all'
+    ? item
+    : item.type.toLowerCase() === value.toLowerCase()
+);
+insertImages(filteredItems);
+}
+
+
+
+function createSelectAuthor(data) {
+let itemsAuthor = ['<option selected value="all">All Authors</option>'];
+data.forEach((item) => {
+itemsAuthor.push(`<option value="${item}">${item}</option>`);
+});
+selectAuthor.innerHTML = itemsAuthor.join('');
+}
+
+function createSelectImageType(data) {
+let itemsType = ['<option selected value="all">All Types</option>'];
+data.forEach((item) => {
+itemsType.push(`<option value="${item}">${item}</option>`);
+});
+selectType.innerHTML = itemsType.join('');
+}
+
+
+
+
