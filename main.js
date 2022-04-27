@@ -13,10 +13,10 @@ async function handleInitialLoad() {
     setState(data);
 
     const userNames = getUserNames(getState());
-    insertAuthorDOM(userNames);
+    selectAuthorDOM(userNames);
 
     const imageType = getImageType(getState());
-    insertImageTypeDOM(imageType);
+    selectImageTypeDOM(imageType);
 
     insertImagesDOM(getState());
 }
@@ -121,7 +121,7 @@ insertImagesDOM(filteredItems);
 
 
 
-function insertAuthorDOM(data) {
+function selectAuthorDOM(data) {
     let author = ['<option selected value="all">All Authors</option>'];
     data.forEach((item) => {
         author.push(`<option value="${item}">${item}</option>`);
@@ -129,7 +129,7 @@ function insertAuthorDOM(data) {
     selectAuthor.innerHTML = author.join('');
 }
 
-function insertImageTypeDOM(data) {
+function selectImageTypeDOM(data) {
     let imageType = ['<option selected value="all">All Types</option>'];
     data.forEach((item) => {
         imageType.push(`<option value="${item}">${item}</option>`);
