@@ -8,17 +8,17 @@ return data;
 }
 
 async function handleInitialLoad() {
+
     const data = await getData(url);
     setState(data);
 
-    const imageAuthor = getUserNames(getState());
-    createSelectAuthor(imageAuthor);
+    const uerNames = getUserNames(getState());
+    insertAuthorDOM(uerNames);
 
     const imageType = getImageType(getState());
-    createSelectImageType(imageType);
+    insertImageTypeDOM(imageType);
 
-    insertImages(getState());
-    
+    insertImagesDOM(getState());
 }
 
 const imgContainer = document.querySelector('#api-data');
@@ -31,21 +31,20 @@ searchField.addEventListener('keyup', handleSearchInputChange);
 selectAuthor.addEventListener('change', handleSelectAuthor);
 selectType.addEventListener('change', handleSelectType);
 
+
 function useState() {
 let _state = null;
 function getState() {return _state;}
 function setState(data) {_state = [...data.hits];}
 return [getState, setState];
 }
+
 const [getState, setState] = useState();
 
 
-function insertImages(data) {
-let items = data.map((item) => cardTemplate(item)).join('');
-imgContainer.innerHTML = items;
-}
 
-function cardTemplate(data) {
+
+function cardTemplate(data) { //create function that return the html
     const { hits, id, user, likes, views, webformatURL, userImageURL } = data;
     return `
     
@@ -64,70 +63,78 @@ function cardTemplate(data) {
     </div>`;
 }
 
+//
+function insertImagesDOM(data) {
+    console.log(data);
+    let images = data.map((item) => cardTemplate(item)).join('');
+    console.log(images);
+    imgContainer.innerHTML = images;
+}
+
 
 // GET USER NAMES FROM DATA
 function getUserNames(data) {
-    const users = data.map((item) => item.user);
-    const uniqUserNames = [...new Set(users)];
-    return uniqUserNames;
+    const authors = data.map((item) => item.user);
+    return authors;
 }
 
 // GET IMAGE TYPE FROM DATA
 function getImageType(data) {
+    //con map hacemos loop a traés de data y agarramos el type 
     const types = data.map((item) => item.type);
-    const uniqImageType = [...new Set(types)];
-    return uniqImageType;
+    const uniqTypes = [...new Set(types)];
+    return uniqTypes;
 }
 
+
+//la funcción recibe un elemento que viene desde un input y se recibe en "e"
 function handleSearchInputChange(e) {
-    const value = e.target.value.toLowerCase();
-    const data = getState();
-    const filteredItems = data.filter((item) =>
+    const value = e.target.value.toLowerCase(); //guardo en "value" la búsqueda del input recibida en "e"
+    const data = getState(); //guardo en "data" los datos recibidos en api usando getState
+    //recorremos todos los "item" de "user" y con includes comparamos el "value" que recibe el input en "e"
+    const filteredItems = data.filter((item) => 
         item.user.toLowerCase().includes(value)
     );
-    insertImages(filteredItems);
+    insertImagesDOM(filteredItems);
 }
 
 
 function handleSelectAuthor(e) {
 const value = e.currentTarget.value.toLowerCase();
 const data = getState();
-const filteredItems = data.filter((item) =>
-value.toLowerCase() === 'all'
-    ? item
-    : item.user.toLowerCase() === value.toLowerCase()
+    const filteredItems = data.filter((item) => // recorremos y filtramos los "item" desde "data"
+    //creamos la condición, si "value" = a all, muestra todo, de todos los "items" muestrame el user que coincida con "value"
+    value.toLowerCase() === 'all' ? item : item.user.toLowerCase() === value.toLowerCase()
+    
 );
-insertImages(filteredItems);
+insertImagesDOM(filteredItems);
 }
-
 
 function handleSelectType(e) {
-const value = e.currentTarget.value.toLowerCase();
-const data = getState();
+const value = e.currentTarget.value.toLowerCase(); //lo que se escribe, lo paso a minúscula
+const data = getState(); //guardo los datos en data llamando a la función getState
 const filteredItems = data.filter((item) =>
-value.toLowerCase() === 'all'
-    ? item
-    : item.type.toLowerCase() === value.toLowerCase()
+value.toLowerCase() === 'all'? item: item.type.toLowerCase() === value.toLowerCase()
 );
-insertImages(filteredItems);
+insertImagesDOM(filteredItems);
 }
 
 
 
-function createSelectAuthor(data) {
-let itemsAuthor = ['<option selected value="all">All Authors</option>'];
-data.forEach((item) => {
-itemsAuthor.push(`<option value="${item}">${item}</option>`);
-});
-selectAuthor.innerHTML = itemsAuthor.join('');
+function insertAuthorDOM(data) {
+    let author = ['<option selected value="all">All Authors</option>'];
+    data.forEach((item) => {
+        author.push(`<option value="${item}">${item}</option>`);
+    });
+    selectAuthor.innerHTML = author.join('');
 }
 
-function createSelectImageType(data) {
-let itemsType = ['<option selected value="all">All Types</option>'];
-data.forEach((item) => {
-itemsType.push(`<option value="${item}">${item}</option>`);
-});
-selectType.innerHTML = itemsType.join('');
+function insertImageTypeDOM(data) {
+    let imageType = ['<option selected value="all">All Types</option>'];
+    data.forEach((item) => {
+        imageType.push(`<option value="${item}">${item}</option>`);
+    });
+    selectType.innerHTML = imageType.join('');
 }
 
 
