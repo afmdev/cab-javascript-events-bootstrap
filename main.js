@@ -1,4 +1,6 @@
-const url = 'https://pixabay.com/api/?key=26639219-c988cadef2f5d334da840ad52&per_page=51';
+let inputSearch = document.querySelector(".search-bar").value
+let url = `https://pixabay.com/api/?key=26639219-c988cadef2f5d334da840ad52&q=roses&per_page=51`;
+console.log(url);
 // const url = 'https://communityoneapi.herokuapp.com/projects';
 
 async function getData(url) {
@@ -65,9 +67,9 @@ function cardTemplate(data) { //create function that return the html
 
 //
 function insertImagesDOM(data) {
-    console.log(data);
+    // console.log(data);
     let images = data.map((item) => cardTemplate(item)).join('');
-    console.log(images);
+    // console.log(images);
     imgContainer.innerHTML = images;
 }
 
@@ -99,11 +101,13 @@ function handleSearchInputChange(e) {
 }
 
 
+
+// Selects: CREAMOS LA LÓGICA QUE RECORRERÁ "data" 
 function handleSelectAuthor(e) {
 const value = e.currentTarget.value.toLowerCase();
 const data = getState();
     const filteredItems = data.filter((item) => // recorremos y filtramos los "item" desde "data"
-    //creamos la condición, si "value" = a all, muestra todo, de todos los "items" muestrame el user que coincida con "value"
+    //creamos la condición, si "value" = a all, muestra todo, sino de todos los "items" muestrame el user que coincida con "value"
     value.toLowerCase() === 'all' ? item : item.user.toLowerCase() === value.toLowerCase()
     
 );
@@ -120,7 +124,7 @@ insertImagesDOM(filteredItems);
 }
 
 
-
+//selects: CREAMOS LA ESTRUCTURA HTML PARA CADA ELEMENTO
 function selectAuthorDOM(data) {
     let author = ['<option selected value="all">All Authors</option>'];
     data.forEach((item) => {
