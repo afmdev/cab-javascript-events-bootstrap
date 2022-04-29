@@ -20,18 +20,18 @@ async function handleInitialLoad() {
     const imageType = getImageType(getState());
     selectImageTypeDOM(imageType);
 
-    insertImagesDOM(getState());
-}
+    insertImagesDOM(getState());}
 
-const imgContainer = document.querySelector('#api-data');
-const searchField = document.querySelector('.search-bar');
-const selectAuthor = document.querySelector('.select-author');
-const selectType = document.querySelector('.select-type');
+const imgContainer = document.querySelector("#api-data");
+const searchField = document.querySelector(".search-bar");
+const selectAuthor = document.querySelector(".select-author");
+const selectType = document.querySelector(".select-type");
+const launchModal = document.querySelector(".modal-content")
 
-window.addEventListener('DOMContentLoaded', handleInitialLoad);
-searchField.addEventListener('keyup', handleSearchInputChange);
-selectAuthor.addEventListener('change', handleSelectAuthor);
-selectType.addEventListener('change', handleSelectType);
+window.addEventListener("DOMContentLoaded", handleInitialLoad);
+searchField.addEventListener("keyup", handleSearchInputChange);
+selectAuthor.addEventListener("change", handleSelectAuthor);
+selectType.addEventListener("change", handleSelectType);
 
 
 function useState() {
@@ -55,7 +55,9 @@ function cardTemplate(data) { //create function that return the html
             <a id="img-link" 
             href="#exampleModal" 
             data-bs-toggle="modal" 
-            data-bs-target="#exampleModal">
+            data-bs-target="#exampleModal"
+            data-id=${data.id}
+            onclick="insertModalDOM(getState(), ${data.id})">
                 <span class="badge rounded-pill bg-dark views"><i class="fa fa-eye"> </i> ${data.views}</span>
                 <span class="badge rounded-pill bg-dark likes"><i class="fa fa-heart"> </i> ${data.likes}</span>
                 <img class="card-img-top" src="${data.webformatURL}" alt="${data.user}">
@@ -63,6 +65,20 @@ function cardTemplate(data) { //create function that return the html
             </a>
         </div>
     </div>`;
+}
+
+function modalTemplate(data) { //create function that return the html
+    const { id, user, tags, webformatURL, userImageURL, } = data;
+    return `
+        <div id="myModalContent" class="modal-header"><img src="${data.userImageURL}">
+            <h5>${data.user}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div id="myModalTags">
+            <div class="tags">Tags: ${data.tags}</div>
+        </div>
+        <div id="myModalBody" class="modal-body">
+            <img src="${data.webformatURL}" width="100%"></div>`;
 }
 
 //
@@ -73,13 +89,24 @@ function insertImagesDOM(data) {
     imgContainer.innerHTML = images;
 }
 
+//
+function insertModalDOM(data, e) {
+    let imageId = e;
+    console.log(imageId);
+    data.forEach((item) => {
+        if (item.id === imageId) {
+            let images = modalTemplate(item)
+            launchModal.innerHTML = images;
+        } 
+    });
+}
+
 
 // GET USER NAMES FROM DATA
 function getUserNames(data) {
     const authors = data.map((item) => item.user);
     return authors;
 }
-
 // GET IMAGE TYPE FROM DATA
 function getImageType(data) {
     //con map hacemos loop a traés de data y agarramos el type 
@@ -113,18 +140,7 @@ const data = getState();
 );
 insertImagesDOM(filteredItems);
 }
-
-function handleSelectType(e) {
-const value = e.currentTarget.value.toLowerCase(); //lo que se escribe, lo paso a minúscula
-const data = getState(); //guardo los datos en data llamando a la función getState
-const filteredItems = data.filter((item) =>
-value.toLowerCase() === 'all'? item: item.type.toLowerCase() === value.toLowerCase()
-);
-insertImagesDOM(filteredItems);
-}
-
-
-//selects: CREAMOS LA ESTRUCTURA HTML PARA CADA ELEMENTO
+//selects: CREAMOS LA ESTRUCTURA HTML PARA CADA ELEMENTO SELECT
 function selectAuthorDOM(data) {
     let author = ['<option selected value="all">All Authors</option>'];
     data.forEach((item) => {
@@ -133,6 +149,21 @@ function selectAuthorDOM(data) {
     selectAuthor.innerHTML = author.join('');
 }
 
+
+
+
+
+
+// Selects: CREAMOS LA LÓGICA QUE RECORRERÁ "data" 
+function handleSelectType(e) {
+const value = e.currentTarget.value.toLowerCase(); //lo que se escribe, lo paso a minúscula
+const data = getState(); //guardo los datos en data llamando a la función getState
+const filteredItems = data.filter((item) =>
+value.toLowerCase() === 'all'? item: item.type.toLowerCase() === value.toLowerCase()
+);
+insertImagesDOM(filteredItems);
+}
+//selects: CREAMOS LA ESTRUCTURA HTML PARA CADA ELEMENTO SELECT
 function selectImageTypeDOM(data) {
     let imageType = ['<option selected value="all">All Types</option>'];
     data.forEach((item) => {
