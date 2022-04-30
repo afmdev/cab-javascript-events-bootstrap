@@ -56,7 +56,6 @@ function cardTemplate(data) { //create function that return the html
             href="#exampleModal" 
             data-bs-toggle="modal" 
             data-bs-target="#exampleModal"
-            data-id=${data.id}
             onclick="insertModalDOM(getState(), ${data.id})">
                 <span class="badge rounded-pill bg-dark views"><i class="fa fa-eye"> </i> ${data.views}</span>
                 <span class="badge rounded-pill bg-dark likes"><i class="fa fa-heart"> </i> ${data.likes}</span>
