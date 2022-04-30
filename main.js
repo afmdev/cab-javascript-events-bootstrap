@@ -73,11 +73,22 @@ function modalTemplate(data) { //create function that return the html
             <h5>${data.user}</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div id="myModalTags">
-            <div class="tags">Tags: ${data.tags}</div>
-        </div>
         <div id="myModalBody" class="modal-body">
-            <img src="${data.webformatURL}" width="100%"></div>`;
+            
+            <img src="${data.webformatURL}" width="100%" class="modal-image">
+
+            <div class="img-overlay">
+            <a class="btn btn-light btn-sm" href="${data.pageURL}" role="button" target="_blank"><i class="fa fa-link"></i> Visit Profile</a>
+            <a class="btn btn-light btn-sm" href="${data.largeImageURL}" role="button" target="_blank"><i class="fa fa-download"></i> Download</a>
+    
+            
+            <div id="myModalTags">
+            <div class="tags"><p><i class="fa fa-heart"></i> ${data.likes}</p></div>
+            <div class="tags"><p><i class="fa fa-tag"></i> ${data.tags}</p></div>
+            </div>
+            </div>
+            
+        </div>`;
 }
 
 //
