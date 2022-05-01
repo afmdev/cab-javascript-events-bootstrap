@@ -8,14 +8,21 @@
     width: 100%;
 }
 
-#api-data div {
-    padding-right: 0!important;
-}
-
 .input-group.search-bar {
-    width: 500px;
+    width: 700px;
     margin: 0 auto;
 }
+
+input#buscar {
+    width: 450px;
+}
+
+.container-fluid.search-container {
+    background: #21252908;
+    height: 300px;
+    padding: 20px;
+}
+
 
 .overlay {
     position: absolute;

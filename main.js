@@ -1,5 +1,8 @@
-let inputSearch = document.querySelector(".search-bar").value
-let url = `https://pixabay.com/api/?key=26639219-c988cadef2f5d334da840ad52&q=roses&per_page=51`;
+// let inputSearch = document.querySelector(".search-bar").value
+// let url = `https://pixabay.com/api/?key=26639219-c988cadef2f5d334da840ad52&q=roses&per_page=51`;
+let key = "26639219-c988cadef2f5d334da840ad52"
+let url = "https://pixabay.com/api/?key=26639219-c988cadef2f5d334da840ad52"
+let auth = url
 console.log(url);
 // const url = 'https://communityoneapi.herokuapp.com/projects';
 
@@ -10,26 +13,25 @@ return data;
 }
 
 async function handleInitialLoad() {
-
     const data = await getData(url);
     setState(data);
 
     const userNames = getUserNames(getState());
     selectAuthorDOM(userNames);
-
     const imageType = getImageType(getState());
     selectImageTypeDOM(imageType);
 
-    insertImagesDOM(getState());}
+    searchImage(getState());
+}
 
 const imgContainer = document.querySelector("#api-data");
-const searchField = document.querySelector(".search-bar");
+// const searchField = document.querySelector(".search-bar");
 const selectAuthor = document.querySelector(".select-author");
 const selectType = document.querySelector(".select-type");
 const launchModal = document.querySelector(".modal-content")
 
 window.addEventListener("DOMContentLoaded", handleInitialLoad);
-searchField.addEventListener("keyup", handleSearchInputChange);
+// searchField.addEventListener("keyup", handleSearchInputChange);
 selectAuthor.addEventListener("change", handleSelectAuthor);
 selectType.addEventListener("change", handleSelectType);
 
@@ -49,8 +51,8 @@ const [getState, setState] = useState();
 function cardTemplate(data) { //create function that return the html
     const { hits, id, user, likes, views, webformatURL, userImageURL } = data;
     return `
-    
-    <div class="col-sm-3 mb-4">
+
+    <div class="col-sm-4 mb-4">
         <div class="card" id="${data.id}">
             <a id="img-link" 
             href="#exampleModal" 
@@ -115,7 +117,8 @@ function insertModalDOM(data, e) {
 // GET USER NAMES FROM DATA
 function getUserNames(data) {
     const authors = data.map((item) => item.user);
-    return authors;
+    const uniqAuthor = [...new Set(authors)];
+    return uniqAuthor;
 }
 // GET IMAGE TYPE FROM DATA
 function getImageType(data) {
@@ -146,10 +149,12 @@ const data = getState();
     const filteredItems = data.filter((item) => // recorremos y filtramos los "item" desde "data"
     //creamos la condición, si "value" = a all, muestra todo, sino de todos los "items" muestrame el user que coincida con "value"
     value.toLowerCase() === 'all' ? item : item.user.toLowerCase() === value.toLowerCase()
-    
-);
-insertImagesDOM(filteredItems);
+    );
+    insertImagesDOM(filteredItems);
 }
+
+
+
 //selects: CREAMOS LA ESTRUCTURA HTML PARA CADA ELEMENTO SELECT
 function selectAuthorDOM(data) {
     let author = ['<option selected value="all">All Authors</option>'];
@@ -158,11 +163,6 @@ function selectAuthorDOM(data) {
     });
     selectAuthor.innerHTML = author.join('');
 }
-
-
-
-
-
 
 // Selects: CREAMOS LA LÓGICA QUE RECORRERÁ "data" 
 function handleSelectType(e) {
@@ -185,3 +185,71 @@ function selectImageTypeDOM(data) {
 
 
 
+let currentPage = 1
+let totalPages = 0
+
+let searchImage = async () => {
+    let input1 = document.querySelector("#buscar").value
+    let imgType = document.querySelector("#imageType").value
+    let imagesPerPage = 3
+    let query = `&q=${input1}&image_type=${imgType}&per_page=${imagesPerPage}&page=${currentPage}`
+    let url = (auth + query)
+    console.log(url)
+
+    let response = await fetch(url)
+    let data = await response.json();
+    setState(data)
+    
+
+    const images = getState();
+    // let images = data.hits
+    // console.log(images)
+    getUserNames(images)
+    let imagesHTML = images.map((item) => cardTemplate(item)).join('');
+
+
+    const userNames = getUserNames(getState());
+    selectAuthorDOM(userNames);
+    const imageType = getImageType(getState());
+    selectImageTypeDOM(imageType);
+
+
+    divListadoImagenes = document.getElementById("api-data")
+    divListadoImagenes.innerHTML = imagesHTML
+
+    totalPages=(data.hits/imagesPerPage)
+    let divPagination = document.querySelector("#pagination")
+
+    let pagPrev = (currentPage === 1)?`<li class="page-item disabled"><a class="page-link" href="#prev" onclick="pagPrev()"><< Prev</a></li>`:`<li class="page-item"><a class="page-link" href="#prev" onclick="pagPrev()"><< Prev</a></li>`
+
+    let pagNext = (currentPage === totalPages)?`<li class="page-item disabled"><a class="page-link" href="#prev" onclick="pagNext()">Next >></a></li>`:`<li class="page-item"><a class="page-link" href="#prev" onclick="pagNext()">Next >></a></li>`
+
+    divPagination.innerHTML = `${pagPrev} ${pagNext}`
+}
+
+const pagPrev = () => {
+    
+    if (currentPage === 1) {
+        return
+    } else {
+        currentPage--;
+        searchImage();
+    }
+}
+
+const pagNext = () => {
+    
+    if (currentPage>totalPages) {
+        return
+    } else {
+        currentPage++
+        searchImage();
+    }
+}
+
+
+const mostrarError = (element, message) => {
+    divError = document.querySelector(element)
+    divError.innerHTML = `<p class='alert alert-primary'>${message}</p>`
+    setTimeout(() => { divError.innerHTML = ``;}, 5000)
+}
