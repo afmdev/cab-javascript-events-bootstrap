@@ -66,8 +66,25 @@
 
 
 <div class="container-fluid search-container">
-    <h1 class="text-center m-5">Javascript Events & Bootstrap</h1>
-<div class="input-group search-bar">
+    <div class="home-top-bg">
+        <picture>
+            <source srcset="https://cdn.pixabay.com/index/2022/04/25/12-08-59-434_1920x550.jpg" media="(min-width: 1440px)">
+            <source srcset="https://cdn.pixabay.com/index/2022/04/25/12-08-59-434_640.jpg" media="(max-width: 640px)"><img
+                src="https://cdn.pixabay.com/index/2022/04/25/12-08-59-434_1440x550.jpg" class="heroBanner--3J9CL">
+        </picture>
+    </div>
+    <div class="home-top-bg-overlay"></div>
+
+
+
+
+
+
+    
+    
+<div class="container title"><h1 class="text-center m-5">Stunning free images & royalty free stock</h1></div>
+<div class="input-group top-search" style="margin: 0 auto">
+    
     <select id="imageType" class="form-select" aria-label="Image Type">
         <option value="all" selected>All</option>
         <option value="photo">Photo</option>
@@ -75,7 +92,7 @@
         <option value="vector">Vector</option>
     </select>
                         <input id="buscar" class="form-control form-control-sm" type="search" placeholder="Search" aria-label="Search" keypress="searchImage()">
-    <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="searchImage()">Go</button>
+    <button class="btn btn-primary" type="button" onclick="searchImage()">Go</button>
 </div>
 </div>
 
