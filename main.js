@@ -21,7 +21,7 @@ async function handleInitialLoad() {
     const imageType = getImageType(getState());
     selectImageTypeDOM(imageType);
 
-    searchImage(getState());
+    insertImagesDOM(getState());
 }
 
 const imgContainer = document.querySelector("#api-data");
@@ -51,7 +51,6 @@ const [getState, setState] = useState();
 function cardTemplate(data) { //create function that return the html
     const { hits, id, user, likes, views, webformatURL, userImageURL } = data;
     return `
-
     <div class="col-sm-4 mb-4">
         <div class="card" id="${data.id}">
             <a id="img-link" 
@@ -184,15 +183,88 @@ function selectImageTypeDOM(data) {
 
 
 
+// function useState() {
+// let _state = null;
+// function getState() {return _state;}
+//     function setState(data) {
+//         _state = [...data.hits];
+//     }
+// return [getState, setState];
+// }
+
+// const [getState, setState] = useState();
+
+
+
+function radioOrientacion() {
+    let numOrientations = document.getElementsByName('flexRadioDefault');
+    let result = "all";
+    for (let i = 0; i < numOrientations.length; i++) {
+        result = document.querySelector('input[name="flexRadioDefault"]:checked').value;   
+    }
+    console.log(result);
+    return result
+}
+
+
+function checkColor() {
+    let colorSelected = document.getElementsByName('color');
+    let checked = []
+    console.log(colorSelected);
+    for (let i = 0; i < colorSelected.length; i++) {
+        if (colorSelected[i].checked) {
+            checked.push(colorSelected[i].value)
+        }
+        var checkedColors = checked.join(',')   
+    }
+    // console.log(checkedColors)
+    return checkedColors
+}
+
+
+function checkLabel() {
+    // let colorSelected = document.getElementsByName('color').value;
+    let colorSelected = document.getElementsByName('color');
+    let label = document.getElementsByClassName('color-select');
+    let checked = []
+    console.log(colorSelected);
+    for (let i = 0; i < colorSelected.length; i++) {
+        if (colorSelected[i].checked == true) {
+            label[i].classList.add("checked")
+            colorSelected[i].classList.add("checked")
+            console.log("hola");
+        } else {
+            label[i].classList.remove("checked")
+            colorSelected[i].classList.remove("checked")
+        }
+        // console.log(checkedColors)
+    }
+}
+
+
+
 
 let currentPage = 1
 let totalPages = 0
 
 let searchImage = async () => {
-    let input1 = document.querySelector("#buscar").value
+    
+    let input = document.querySelector("#buscar").value
+
+    let inputWithSpaces = input.replace(/ /g, '+');
+
+    if (input === "") {
+        mostrarError("#msg-error", "Please, type a searh term")
+        return;
+    }
+
+    let orienta = radioOrientacion()
+    let color = checkColor()
+    console.log(color);
+
     let imgType = document.querySelector("#imageType").value
-    let imagesPerPage = 3
-    let query = `&q=${input1}&image_type=${imgType}&per_page=${imagesPerPage}&page=${currentPage}`
+    let imagesPerPage = 9
+    let query = `&q=${inputWithSpaces}&colors=${color}&image_type=${imgType}&orientation=${orienta}&per_page=${imagesPerPage}&page=${currentPage}`
     let url = (auth + query)
     console.log(url)
 
@@ -227,6 +299,16 @@ let searchImage = async () => {
     divPagination.innerHTML = `${pagPrev} ${pagNext}`
 }
 
+
+
+
+
+
+
+
+
+
+
 const pagPrev = () => {
     
     if (currentPage === 1) {
@@ -236,7 +318,6 @@ const pagPrev = () => {
         searchImage();
     }
 }
-
 const pagNext = () => {
     
     if (currentPage>totalPages) {
@@ -250,6 +331,6 @@ const pagNext = () => {
 
 const mostrarError = (element, message) => {
     divError = document.querySelector(element)
-    divError.innerHTML = `<p class='alert alert-primary'>${message}</p>`
-    setTimeout(() => { divError.innerHTML = ``;}, 5000)
+    divError.innerHTML = `<div class="alert alert-danger d-flex justify-content-center mt-4 w-50" role="alert">${message}</div>`
+    setTimeout(() => { divError.innerHTML = ``;}, 2000)
 }

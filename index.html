@@ -20,9 +20,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="#"><img src="./img/afm.png" alt="afm:berlin" width="50" height="50"></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -51,7 +49,6 @@
                             <li><a class="dropdown-item" href="#">Something else here</a></li>
                         </ul>
                     </li>
-
                 </ul>
                 <form class="d-flex">
                     <input class="form-control form-control-sm me-2" type="search" placeholder="Search"
@@ -64,88 +61,134 @@
     <!-- END NAV BAR MENU  -->
 
 
+    <!-- TOP CONTENT SEARCH BAR -->
+    <div class="container-fluid search-container">
+        <div class="home-top-bg">
+            <picture>
+                <source srcset="https://cdn.pixabay.com/index/2022/04/25/12-08-59-434_1920x550.jpg" media="(min-width: 1440px)">
+                <source srcset="https://cdn.pixabay.com/index/2022/04/25/12-08-59-434_640.jpg" media="(max-width: 640px)">
+                <img src="https://cdn.pixabay.com/index/2022/04/25/12-08-59-434_1440x550.jpg" class="heroBanner--3J9CL">
+            </picture>
+        </div>
+        <div class="home-top-bg-overlay"></div>
 
-<div class="container-fluid search-container">
-    <div class="home-top-bg">
-        <picture>
-            <source srcset="https://cdn.pixabay.com/index/2022/04/25/12-08-59-434_1920x550.jpg" media="(min-width: 1440px)">
-            <source srcset="https://cdn.pixabay.com/index/2022/04/25/12-08-59-434_640.jpg" media="(max-width: 640px)"><img
-                src="https://cdn.pixabay.com/index/2022/04/25/12-08-59-434_1440x550.jpg" class="heroBanner--3J9CL">
-        </picture>
+        <div class="container title"><h1 class="text-center m-5">Stunning free images & royalty free stock</h1></div>
+        <div class="input-group top-search" style="margin: 0 auto">
+            <select id="imageType" class="form-select" aria-label="Image Type">
+                <option value="all" selected>All</option>
+                <option value="photo">Photo</option>
+                <option value="illustration">Illustration</option>
+                <option value="vector">Vector</option>
+            </select>
+            <input id="buscar" class="form-control form-control-sm" type="search" placeholder="Search" aria-label="Search" keypress="searchImage()">
+            <button class="btn btn-primary" type="button" onclick="searchImage()">Go</button>
+            <a class="btn btn-outline-light ms-1" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+                aria-controls="collapseExample">
+                +
+            </a>
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col">
+                                <h6>Orientación</h6>
+                                <form name="myForm">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault0" value="all" checked>
+                                    <label class="form-check-label" for="flexRadioDefault0">
+                                        All
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="horizontal">
+                                    <label class="form-check-label" for="flexRadioDefault1">
+                                        Horizontal
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="vertical">
+                                    <label class="form-check-label" for="flexRadioDefault2">
+                                        Vertical
+                                    </label>
+                                </div>
+                                </form>
+                            </div>
+                            <div class="col">
+                                <h6>Color</h6>
+                                <p>Images that have received an <a href="https://pixabay.com/editors_choice/" target="_blank">Editor's Choice</a>  award.</p>
+                            </div>
+                            <div class="col">
+                                <h6>Color</h6>
+                                <div class="color-form">
+                                        <div class="grid-colors">
+                                            <label class="color-select red">
+                                                <input type="checkbox" name="color" value="red" onclick="checkLabel()">
+                                            </label>
+                                            <label class="color-select orange">
+                                                <input type="checkbox" name="color" value="orange" onclick="checkLabel()">
+                                            </label>
+                                            <label class="color-select yellow">
+                                                <input type="checkbox" name="color" value="yellow" onclick="checkLabel()">
+                                            </label>
+                                            <label class="color-select green">
+                                                <input type="checkbox" name="color" value="green" onclick="checkLabel()">
+                                            </label>
+                                            <label class="color-select turquoise">
+                                                <input type="checkbox" name="color" value="turquoise" onclick="checkLabel()">
+                                            </label>
+                                            <label class="color-select blue">
+                                                <input type="checkbox" name="color" value="blue" onclick="checkLabel()">
+                                            </label>
+                                            <label class="color-select lilac">
+                                                <input type="checkbox" name="color" value="lilac" onclick="checkLabel()">
+                                            </label>
+                                            <label class="color-select pink">
+                                                <input type="checkbox" name="color" value="pink" onclick="checkLabel()">
+                                            </label>
+                                            <label class="color-select white">
+                                                <input type="checkbox" name="color" value="white" onclick="checkLabel()">
+                                            </label>
+                                            <label class="color-select grey">
+                                                <input type="checkbox" name="color" value="gray" onclick="checkLabel()">
+                                            </label>
+                                            <label class="color-select black">
+                                                <input type="checkbox" name="color" value="black" onclick="checkLabel()">
+                                            </label>
+                                            <label class="color-select brown">
+                                                <input type="checkbox" name="color" value="brown" onclick="checkLabel()">
+                                            </label>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ERROR -->
+        <div class="error d-flex justify-content-center" id="msg-error"></div>
     </div>
-    <div class="home-top-bg-overlay"></div>
 
 
-
-
-
-
-    
-    
-<div class="container title"><h1 class="text-center m-5">Stunning free images & royalty free stock</h1></div>
-<div class="input-group top-search" style="margin: 0 auto">
-    
-    <select id="imageType" class="form-select" aria-label="Image Type">
-        <option value="all" selected>All</option>
-        <option value="photo">Photo</option>
-        <option value="illustration">Illustration</option>
-        <option value="vector">Vector</option>
-    </select>
-                        <input id="buscar" class="form-control form-control-sm" type="search" placeholder="Search" aria-label="Search" keypress="searchImage()">
-    <button class="btn btn-primary" type="button" onclick="searchImage()">Go</button>
-</div>
-</div>
-
-
-
-    <!-- MAIN CONTENT -->
-    <!-- <div class="container">
-        
-
-        <div class="input-group search-bar">
-            <input type="text" class="form-control" placeholder="Search a image"
-                aria-label="Search a image">
-            <input class="btn btn-outline-secondary" type="button" value="Go"></input>
-            <input type="text" id="buscar" class="form-control" placeholder="Search a image" aria-label="Search a image">
-            <input class="btn btn-outline-secondary" type="button" value="Go" onclick="searchImage()"></input>
-        </div> 
-        </div> -->
-
-
-    <!-- ITEMS OF MY GRID -->
+    <!-- IMG GRID MAIN CONTENT -->
     <div class="container">
-<div class="row">
-    <div class="col-auto me-auto">
-        
-    </div>
-    <div class="col-auto">
-        <!-- <select id="imageNum" class="form-select" aria-label="Image Type">
-            <option value="20" selected>20</option>
-            <option value="50" onclick="searchImage(50)">50</option>
-            <option value="100">100</option>
-            <option value="499">500</option>
-        </select> -->
-
-        <a class="btn btn-danger btn-sm filter-button" data-bs-toggle="offcanvas" href="#offcanvasRight" role="button"
-            aria-controls="offcanvasRight">Filter</a>
-    </div>
-</div>
-
-
-
-        
+        <div class="row">
+            <div class="col-auto me-auto">
+                <span>Hola</span>
+            </div>
+            <div class="col-auto">
+                <a class="btn btn-danger btn-sm filter-button" data-bs-toggle="offcanvas" href="#offcanvasRight" role="button" aria-controls="offcanvasRight">Filter</a>
+            </div>
+        </div>
         <div id="api-data" class="row my-3" data-masonry='{"percentPosition": true }'></div>
-        <!-- END ITEMS OF MY GRID -->
-
-    <nav>
-        <ul class="pagination justify-content-center" id="pagination"></ul>
-    </nav>
-
+        <nav>
+            <ul class="pagination justify-content-center" id="pagination"></ul>
+        </nav>
+    </div>
 
 
 
-
-        <!-- TOGGLE BOTTOM OFFCANVAS -->
+        <!-- OFFCANVAS CONTENT -->
         <div class="container">
             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight"
                 aria-labelledby="offcanvasRightLabel">
@@ -251,15 +294,19 @@
                 </div>
             </div>
         </div>
-        <!-- END TOGGLE BOTTOM OFFCANVAS -->
-        <div class="error" id="msg-error"></div>
+
+
+       
+        
+        
         <!-- MODAL -->
         <div class="modal fade" id="exampleModal" tabindex="-1"aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content"></div>
             </div>
         </div>
-        <!-- END MODAL -->
+
+
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.js"></script> -->
