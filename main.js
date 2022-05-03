@@ -2,12 +2,13 @@
 // let url = `https://pixabay.com/api/?key=26639219-c988cadef2f5d334da840ad52&q=roses&per_page=51`;
 let key = "26639219-c988cadef2f5d334da840ad52"
 let url = "https://pixabay.com/api/?key=26639219-c988cadef2f5d334da840ad52"
+let url2 = "https://pixabay.com/api/?key=26639219-c988cadef2f5d334da840ad52&per_page=21"
 let auth = url
 console.log(url);
 // const url = 'https://communityoneapi.herokuapp.com/projects';
 
-async function getData(url) {
-const response = await fetch(url);
+async function getData(url2) {
+const response = await fetch(url2);
 const data = await response.json();
 return data;
 }
@@ -22,6 +23,7 @@ async function handleInitialLoad() {
     selectImageTypeDOM(imageType);
 
     insertImagesDOM(getState());
+    mostPopularItem(getState());
 }
 
 const imgContainer = document.querySelector("#api-data");
@@ -29,9 +31,12 @@ const imgContainer = document.querySelector("#api-data");
 const selectAuthor = document.querySelector(".select-author");
 const selectType = document.querySelector(".select-type");
 const launchModal = document.querySelector(".modal-content")
+let mostPopularTable = document.querySelector("#myTable tbody")
+var input2 = document.getElementById("buscar");
 
 window.addEventListener("DOMContentLoaded", handleInitialLoad);
 // searchField.addEventListener("keyup", handleSearchInputChange);
+input2.addEventListener("keyup", handleEnter);
 selectAuthor.addEventListener("change", handleSelectAuthor);
 selectType.addEventListener("change", handleSelectType);
 
@@ -51,7 +56,7 @@ const [getState, setState] = useState();
 function cardTemplate(data) { //create function that return the html
     const { hits, id, user, likes, views, webformatURL, userImageURL } = data;
     return `
-    <div class="col-sm-4 mb-4">
+    <div class="col-xs-4 col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-4 mb-4">
         <div class="card" id="${data.id}">
             <a id="img-link" 
             href="#exampleModal" 
@@ -76,13 +81,10 @@ function modalTemplate(data) { //create function that return the html
         </div>
         <div id="myModalBody" class="modal-body">
             
-            <img src="${data.webformatURL}" width="100%" class="modal-image">
-
+            <img src="${data.largeImageURL}" width="100%" class="modal-image">
             <div class="img-overlay">
             <a class="btn btn-light btn-sm" href="${data.pageURL}" role="button" target="_blank"><i class="fa fa-link"></i> Visit Profile</a>
             <a class="btn btn-light btn-sm" href="${data.largeImageURL}" role="button" target="_blank"><i class="fa fa-download"></i> Download</a>
-    
-            
             <div id="myModalTags">
             <div class="tags"><p><i class="fa fa-heart"></i> ${data.likes}</p></div>
             <div class="tags"><p><i class="fa fa-tag"></i> ${data.tags}</p></div>
@@ -91,6 +93,24 @@ function modalTemplate(data) { //create function that return the html
             
         </div>`;
 }
+
+function rightbarTemplate(data) { //create function that return the html
+    const { id, user, tags, webformatURL, userImageURL } = data;
+    return `
+    <li class="list-group-item d-flex">
+            <a id="img-link" 
+            href="#exampleModal" 
+            data-bs-toggle="modal" 
+            data-bs-target="#exampleModal"
+            onclick="insertModalDOM(getState(), ${data.id})">
+            <img src="${data.webformatURL}" width="100px">
+            </a>
+            <p>${data.user}<br /><span><i class="fa fa-heart"></i> ${data.likes}</span><span><i class="fa fa-eye"></i> ${data.views}</span>
+            <span><i class="fa fa-download"></i> ${data.downloads}</span>
+            </p>
+    </li>`;
+}
+
 
 //
 function insertImagesDOM(data) {
@@ -103,7 +123,7 @@ function insertImagesDOM(data) {
 //
 function insertModalDOM(data, e) {
     let imageId = e;
-    console.log(imageId);
+    // console.log(imageId);
     data.forEach((item) => {
         if (item.id === imageId) {
             let images = modalTemplate(item)
@@ -111,6 +131,8 @@ function insertModalDOM(data, e) {
         } 
     });
 }
+
+
 
 
 // GET USER NAMES FROM DATA
@@ -138,6 +160,13 @@ function handleSearchInputChange(e) {
     );
     insertImagesDOM(filteredItems);
 }
+
+function handleEnter(e) { 
+    if (e.key === "Enter") {  
+    searchImage(e);
+    }
+}
+
 
 
 
@@ -183,26 +212,14 @@ function selectImageTypeDOM(data) {
 
 
 
-// function useState() {
-// let _state = null;
-// function getState() {return _state;}
-//     function setState(data) {
-//         _state = [...data.hits];
-//     }
-// return [getState, setState];
-// }
-
-// const [getState, setState] = useState();
-
-
 
 function radioOrientacion() {
     let numOrientations = document.getElementsByName('flexRadioDefault');
     let result = "all";
     for (let i = 0; i < numOrientations.length; i++) {
-        result = document.querySelector('input[name="flexRadioDefault"]:checked').value;   
+        result = document.querySelector('input[name="flexRadioDefault"]:checked').value  
     }
-    console.log(result);
+    // console.log(result);
     return result
 }
 
@@ -210,7 +227,7 @@ function radioOrientacion() {
 function checkColor() {
     let colorSelected = document.getElementsByName('color');
     let checked = []
-    console.log(colorSelected);
+    // console.log(colorSelected);
     for (let i = 0; i < colorSelected.length; i++) {
         if (colorSelected[i].checked) {
             checked.push(colorSelected[i].value)
@@ -224,21 +241,52 @@ function checkColor() {
 
 function checkLabel() {
     // let colorSelected = document.getElementsByName('color').value;
-    let colorSelected = document.getElementsByName('color');
-    let label = document.getElementsByClassName('color-select');
+    let colorSelected = document.getElementsByName('color')
+    let label = document.getElementsByClassName('color-select')
+    let filter = document.getElementById("clean-filter")
+    filter.style.opacity = "0";
     let checked = []
-    console.log(colorSelected);
+    // console.log(colorSelected);
     for (let i = 0; i < colorSelected.length; i++) {
         if (colorSelected[i].checked == true) {
             label[i].classList.add("checked")
             colorSelected[i].classList.add("checked")
-            console.log("hola");
+            // console.log("hola");
         } else {
             label[i].classList.remove("checked")
-            colorSelected[i].classList.remove("checked")
+            colorSelected[i].classList.add("checked")
         }
         // console.log(checkedColors)
     }
+}
+
+
+
+
+
+//
+let mostPopularItem = async () => {
+    let mostPopularTable = document.querySelector("#popular-list")
+    let imagesPerPage = 200
+    let query = `&per_page=${imagesPerPage}`
+    let url = (auth + query)
+    console.log(url)
+
+    let response = await fetch(url)
+    let data = await response.json()
+    setState(data)
+    let images = getState()
+
+    images.sort((a,b)=> (a.likes < b.likes ? 1 : -1))
+    let onlyFive = images.filter((item, idx) => idx < 4).map((item) => rightbarTemplate(item)).join('');
+    mostPopularTable.innerHTML = onlyFive;
+}
+
+
+
+
+const refreshPage = () => {
+    window.location.reload();
 }
 
 
@@ -248,25 +296,21 @@ let currentPage = 1
 let totalPages = 0
 
 let searchImage = async () => {
-    
     let input = document.querySelector("#buscar").value
-
     let inputWithSpaces = input.replace(/ /g, '+');
 
     if (input === "") {
         mostrarError("#msg-error", "Please, type a searh term")
         return;
     }
-
     let orienta = radioOrientacion()
     let color = checkColor()
-    console.log(color);
-
     let imgType = document.querySelector("#imageType").value
-    let imagesPerPage = 9
-    let query = `&q=${inputWithSpaces}&colors=${color}&image_type=${imgType}&orientation=${orienta}&per_page=${imagesPerPage}&page=${currentPage}`
+    let imgCategory = document.querySelector("#imgCategory").value
+    let imagesPerPage = 21
+    let query = `&q=${inputWithSpaces}&colors=${color}&image_type=${imgType}&category=${imgCategory}&orientation=${orienta}&per_page=${imagesPerPage}&page=${currentPage}`
     let url = (auth + query)
-    console.log(url)
+    // console.log(url)
 
     let response = await fetch(url)
     let data = await response.json();
@@ -277,8 +321,8 @@ let searchImage = async () => {
     // let images = data.hits
     // console.log(images)
     getUserNames(images)
-    let imagesHTML = images.map((item) => cardTemplate(item)).join('');
 
+    let imagesHTML = images.filter((item, idx) => idx < 21).map((item) => cardTemplate(item)).join('');
 
     const userNames = getUserNames(getState());
     selectAuthorDOM(userNames);
@@ -289,7 +333,13 @@ let searchImage = async () => {
     divListadoImagenes = document.getElementById("api-data")
     divListadoImagenes.innerHTML = imagesHTML
 
-    totalPages=(data.hits/imagesPerPage)
+
+// console.log(myCount);
+        
+    totalPages = Math.ceil(data.totalHits / imagesPerPage)
+    console.log("total: " + totalPages);
+    console.log(url);
+
     let divPagination = document.querySelector("#pagination")
 
     let pagPrev = (currentPage === 1)?`<li class="page-item disabled"><a class="page-link" href="#prev" onclick="pagPrev()"><< Prev</a></li>`:`<li class="page-item"><a class="page-link" href="#prev" onclick="pagPrev()"><< Prev</a></li>`
@@ -300,22 +350,14 @@ let searchImage = async () => {
 }
 
 
-
-
-
-
-
-
-
-
-
 const pagPrev = () => {
     
-    if (currentPage === 1) {
+    if (currentPage === 0) {
         return
     } else {
         currentPage--;
         searchImage();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 }
 const pagNext = () => {
@@ -325,6 +367,7 @@ const pagNext = () => {
     } else {
         currentPage++
         searchImage();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 }
 

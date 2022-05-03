@@ -3,10 +3,10 @@
     margin: 0;
 }
 
-#img-link {
+/* #img-link {
     position: relative;
     width: 100%;
-}
+} */
 
 
 .input-group.top-search {
@@ -35,6 +35,14 @@ select#imageType {
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, .3);
+}
+
+
+@supports (position: sticky) {
+    .is-sticky {
+        position: sticky;
+        top: 0;
+    }
 }
 
 div#collapseExample {
@@ -257,8 +265,9 @@ color: #eee;
 }
 
 label.color-select.checked {
-    border: 2px solid #787878;
+    border: 2px solid #ff8a8a;
 }
+
 
 label.color-select input {
     position: absolute;
@@ -360,3 +369,72 @@ div#myModalTags p {
 div#color {
     padding-left: 30px;
 }
+
+#popular-list li img {
+    width: 70px;
+    height: 70px;
+    border-radius: 100px;
+}
+
+#popular-list li p {
+    font-size: 18px;
+    font-weight: bold;
+    padding-left: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    margin: 0;
+
+}
+
+
+#popular-list li span {
+    font-size: 12px;
+}
+
+#popular-list li.list-group-item.d-flex {
+    margin: 0;
+    padding: 10px 31px 10px 20px;
+    background: #f9f9f9;
+    border-radius: 20px;
+    box-shadow: 0px 2px 0 0 #dddddd;
+    margin-bottom: 2px;
+    align-items: center;
+}
+
+#popular-list i.fa.fa-eye {
+    color: #449dd1;
+}
+/* 
+@media only screen and (max-width: 990px) {
+    #popular-list li.list-group-item.d-flex {
+        width: 23%;
+    }
+
+
+    
+    #popular-list li img {
+        width: 40px;
+        height: 40px;
+        border-radius: 100px;
+    }
+    
+    ul#popular-list {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+}
+
+@media only screen and (max-width: 1200px) {
+    #popular-list li.list-group-item.d-flex {
+        flex-direction: column;
+    }
+        #popular-list li p {
+            align-items: center;
+            flex-direction: column;
+        }
+
+} */

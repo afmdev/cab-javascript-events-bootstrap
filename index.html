@@ -114,8 +114,19 @@
                                 </form>
                             </div>
                             <div class="col">
-                                <h6>Color</h6>
-                                <p>Images that have received an <a href="https://pixabay.com/editors_choice/" target="_blank">Editor's Choice</a>  award.</p>
+                                <h6>Category</h6>
+                                <select id="imgCategory" class="form-select" aria-label="Image Type">
+                                    <option value="all" selected>All</option>
+                                    <option value="animals" onchange="searchImage()">Animals</option>
+                                    <option value="backgrounds">Backgrounds</option>
+                                    <option value="fashion">Fashion</option>
+                                    <option value="nature">Nature</option>
+                                    <option value="science">Science</option>
+                                    <option value="education">Education</option>
+                                    <option value="feelings">Feelings</option>
+                                    <option value="health">Health</option>
+                                    <option value="people">People</option>
+                                </select>
                             </div>
                             <div class="col">
                                 <h6>Color</h6>
@@ -158,6 +169,7 @@
                                                 <input type="checkbox" name="color" value="brown" onclick="checkLabel()">
                                             </label>
                                         </div>
+                                        <a id="clean-filter" href="#" onclick="refreshPage()">clean filters</a> 
                                 </div>
                             </div>
                         </div>
@@ -170,21 +182,38 @@
     </div>
 
 
-    <!-- IMG GRID MAIN CONTENT -->
-    <div class="container">
-        <div class="row">
-            <div class="col-auto me-auto">
-                <span>Hola</span>
-            </div>
-            <div class="col-auto">
-                <a class="btn btn-danger btn-sm filter-button" data-bs-toggle="offcanvas" href="#offcanvasRight" role="button" aria-controls="offcanvasRight">Filter</a>
+
+
+<div class="container-md">
+    <div class="row">
+        <div class="col-xs-1 col-sm-6 col-md-7 col-lg-8 col-xl-9 col-xxl-9 mb-4">
+            <div id="api-data" class="row my-3" data-masonry='{"percentPosition": true }'></div>
+            <nav>
+                <ul class="pagination justify-content-center" id="pagination"></ul>
+            </nav>
+        </div>
+        <div class="col-xs-1 col-sm-6 col-md-5 col-lg-4 col-xl-3 col-xxl-3">
+            <a class="btn btn-danger btn-sm filter-button" data-bs-toggle="offcanvas" href="#offcanvasRight" role="button"
+                aria-controls="offcanvasRight">Filter</a>
+            <div class="is-sticky">
+                <h4>Most popular</h4>
+                <div id="popular" class="is-sticky">
+                    <ul class="list-group list-group-flush" id="popular-list">
+                    </ul>
+                </div>
             </div>
         </div>
-        <div id="api-data" class="row my-3" data-masonry='{"percentPosition": true }'></div>
-        <nav>
-            <ul class="pagination justify-content-center" id="pagination"></ul>
-        </nav>
     </div>
+</div>
+
+
+
+
+
+
+
+
+    <!-- IMG GRID MAIN CONTENT -->
 
 
 
@@ -235,61 +264,7 @@
                             </li>
                         </ul>
 
-                        <ul class="list-unstyled mb-0 py-3 pt-md-1">
-                            <li class="">
-                                <button class="btn d-inline-flex align-items-center rounded" data-bs-toggle="collapse"
-                                    data-bs-target="#color" aria-expanded="true">Color</button>
-                                <div class="collapse show" id="color">
-                                    <div class="color-form">
-                                        <form action="" method="get">
-
-                                            <div class="grid-colors">
-                                                <label class="color-select red">
-                                                    <input type="checkbox" name="colors" value="red">
-                                                </label>
-                                                <label class="color-select orange">
-                                                    <input type="checkbox" name="colors" value="orange">
-                                                </label>
-                                                <label class="color-select yellow">
-                                                    <input type="checkbox" name="colors" value="yellow">
-                                                </label>
-                                                <label class="color-select green">
-                                                    <input type="checkbox" name="colors" value="green">
-                                                </label>
-                                                <label class="color-select turquoise">
-                                                    <input type="checkbox" name="colors" value="turquoise">
-                                                </label>
-                                                <label class="color-select blue">
-                                                    <input type="checkbox" name="colors" value="blue">
-                                                </label>
-                                                <label class="color-select lilac">
-                                                    <input type="checkbox" name="colors" value="lilac">
-                                                </label>
-                                                <label class="color-select pink">
-                                                    <input type="checkbox" name="colors" value="pink">
-                                                </label>
-                                                <label class="color-select white">
-                                                    <input type="checkbox" name="colors" value="white">
-                                                </label>
-                                                <label class="color-select grey">
-                                                    <input type="checkbox" name="colors" value="gray">
-                                                </label>
-                                                <label class="color-select black">
-                                                    <input type="checkbox" name="colors" value="black">
-                                                </label>
-                                                <label class="color-select brown">
-                                                    <input type="checkbox" name="colors" value="brown">
-                                                </label>
-
-                                            </div>
-                                            <div class="submit-container">
-                                                <button class="submit-button">Apply Filter</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
+                        
                     </nav>
                 </div>
             </div>
@@ -301,7 +276,7 @@
         
         <!-- MODAL -->
         <div class="modal fade" id="exampleModal" tabindex="-1"aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content"></div>
             </div>
         </div>
