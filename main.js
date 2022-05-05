@@ -1,14 +1,9 @@
-// let inputSearch = document.querySelector(".search-bar").value
-// let url = `https://pixabay.com/api/?key=26639219-c988cadef2f5d334da840ad52&q=roses&per_page=51`;
-let key = "26639219-c988cadef2f5d334da840ad52"
 let url = "https://pixabay.com/api/?key=26639219-c988cadef2f5d334da840ad52"
-let url2 = "https://pixabay.com/api/?key=26639219-c988cadef2f5d334da840ad52&per_page=21"
 let auth = url
-console.log(url);
-// const url = 'https://communityoneapi.herokuapp.com/projects';
 
-async function getData(url2) {
-const response = await fetch(url2);
+
+async function getData(url) {
+const response = await fetch(url);
 const data = await response.json();
 return data;
 }
@@ -26,16 +21,15 @@ async function handleInitialLoad() {
     mostPopularItem(getState());
 }
 
+
+
 const imgContainer = document.querySelector("#api-data");
-// const searchField = document.querySelector(".search-bar");
 const selectAuthor = document.querySelector(".select-author");
 const selectType = document.querySelector(".select-type");
 const launchModal = document.querySelector(".modal-content")
-let mostPopularTable = document.querySelector("#myTable tbody")
 var input2 = document.getElementById("buscar");
 
 window.addEventListener("DOMContentLoaded", handleInitialLoad);
-// searchField.addEventListener("keyup", handleSearchInputChange);
 input2.addEventListener("keyup", handleEnter);
 selectAuthor.addEventListener("change", handleSelectAuthor);
 selectType.addEventListener("change", handleSelectType);
@@ -114,10 +108,11 @@ function rightbarTemplate(data) { //create function that return the html
 
 //
 function insertImagesDOM(data) {
-    // console.log(data);
-    let images = data.map((item) => cardTemplate(item)).join('');
-    // console.log(images);
-    imgContainer.innerHTML = images;
+    let images = data.filter((item, idx) => idx < 9).map((item) => cardTemplate(item)).join('');
+    imgContainer.innerHTML = `<div class="mySpinner"><div></div><div></div></div>`
+    setTimeout(() => {
+        imgContainer.innerHTML = images
+    }, 1500)
 }
 
 //
@@ -143,18 +138,15 @@ function getUserNames(data) {
 }
 // GET IMAGE TYPE FROM DATA
 function getImageType(data) {
-    //con map hacemos loop a traés de data y agarramos el type 
     const types = data.map((item) => item.type);
     const uniqTypes = [...new Set(types)];
     return uniqTypes;
 }
 
 
-//la funcción recibe un elemento que viene desde un input y se recibe en "e"
 function handleSearchInputChange(e) {
-    const value = e.target.value.toLowerCase(); //guardo en "value" la búsqueda del input recibida en "e"
-    const data = getState(); //guardo en "data" los datos recibidos en api usando getState
-    //recorremos todos los "item" de "user" y con includes comparamos el "value" que recibe el input en "e"
+    const value = e.target.value.toLowerCase();
+    const data = getState();
     const filteredItems = data.filter((item) => 
         item.user.toLowerCase().includes(value)
     );
@@ -162,8 +154,9 @@ function handleSearchInputChange(e) {
 }
 
 function handleEnter(e) { 
-    if (e.key === "Enter") {  
-    searchImage(e);
+    if (e.key === "Enter") {
+    
+    searchImage();
     }
 }
 
@@ -174,8 +167,7 @@ function handleEnter(e) {
 function handleSelectAuthor(e) {
 const value = e.currentTarget.value.toLowerCase();
 const data = getState();
-    const filteredItems = data.filter((item) => // recorremos y filtramos los "item" desde "data"
-    //creamos la condición, si "value" = a all, muestra todo, sino de todos los "items" muestrame el user que coincida con "value"
+    const filteredItems = data.filter((item) => 
     value.toLowerCase() === 'all' ? item : item.user.toLowerCase() === value.toLowerCase()
     );
     insertImagesDOM(filteredItems);
@@ -194,13 +186,14 @@ function selectAuthorDOM(data) {
 
 // Selects: CREAMOS LA LÓGICA QUE RECORRERÁ "data" 
 function handleSelectType(e) {
-const value = e.currentTarget.value.toLowerCase(); //lo que se escribe, lo paso a minúscula
-const data = getState(); //guardo los datos en data llamando a la función getState
+const value = e.currentTarget.value.toLowerCase(); 
+const data = getState();
 const filteredItems = data.filter((item) =>
 value.toLowerCase() === 'all'? item: item.type.toLowerCase() === value.toLowerCase()
 );
 insertImagesDOM(filteredItems);
 }
+
 //selects: CREAMOS LA ESTRUCTURA HTML PARA CADA ELEMENTO SELECT
 function selectImageTypeDOM(data) {
     let imageType = ['<option selected value="all">All Types</option>'];
@@ -209,9 +202,6 @@ function selectImageTypeDOM(data) {
     });
     selectType.innerHTML = imageType.join('');
 }
-
-
-
 
 function radioOrientacion() {
     let numOrientations = document.getElementsByName('flexRadioDefault');
@@ -223,52 +213,41 @@ function radioOrientacion() {
     return result
 }
 
-
 function checkColor() {
     let colorSelected = document.getElementsByName('color');
     let checked = []
-    // console.log(colorSelected);
     for (let i = 0; i < colorSelected.length; i++) {
         if (colorSelected[i].checked) {
             checked.push(colorSelected[i].value)
         }
         var checkedColors = checked.join(',')   
     }
-    // console.log(checkedColors)
     return checkedColors
 }
 
 
 function checkLabel() {
-    // let colorSelected = document.getElementsByName('color').value;
     let colorSelected = document.getElementsByName('color')
     let label = document.getElementsByClassName('color-select')
     let filter = document.getElementById("clean-filter")
-    filter.style.opacity = "0";
+    filter.style.opacity = "1";
     let checked = []
-    // console.log(colorSelected);
     for (let i = 0; i < colorSelected.length; i++) {
         if (colorSelected[i].checked == true) {
             label[i].classList.add("checked")
             colorSelected[i].classList.add("checked")
-            // console.log("hola");
         } else {
             label[i].classList.remove("checked")
             colorSelected[i].classList.add("checked")
         }
-        // console.log(checkedColors)
     }
 }
 
 
-
-
-
-//
 let mostPopularItem = async () => {
     let mostPopularTable = document.querySelector("#popular-list")
-    let imagesPerPage = 200
-    let query = `&per_page=${imagesPerPage}`
+    let imagesPerPages = 200
+    let query = `&per_page=${imagesPerPages}`
     let url = (auth + query)
     console.log(url)
 
@@ -278,39 +257,49 @@ let mostPopularItem = async () => {
     let images = getState()
 
     images.sort((a,b)=> (a.likes < b.likes ? 1 : -1))
-    let onlyFive = images.filter((item, idx) => idx < 4).map((item) => rightbarTemplate(item)).join('');
-    mostPopularTable.innerHTML = onlyFive;
+    let likes = images.filter((item, idx) => idx < 3).map((item) => rightbarTemplate(item)).join('');
+    mostPopularTable.innerHTML = likes;
 }
 
 
-
-
-const refreshPage = () => {
+const refreshPage =  () => {
     window.location.reload();
 }
 
-
-
-
 let currentPage = 1
 let totalPages = 0
+let copyInput = ""
+let copyValueTypeImage = ""
+let copyValueOrientation = ""
+let copyValueCategory = ""
+let copyValueColor = ""
 
 let searchImage = async () => {
-    let input = document.querySelector("#buscar").value
-    let inputWithSpaces = input.replace(/ /g, '+');
 
+    let input = document.querySelector("#buscar").value
+    let valueTypeImage = document.querySelector("#imageType").value
+    let valueOrientation = document.querySelector('input[name="flexRadioDefault"]:checked').value
+    let valueCategory = document.querySelector("#imgCategory").value
+    let divPagination = document.querySelector("#pagination")
+    divPagination.style.display = "none"
+    let inputWithSpaces = input.replace(/ /g, '+');
+    
     if (input === "") {
         mostrarError("#msg-error", "Please, type a searh term")
         return;
     }
+    if (input != copyInput || valueTypeImage != copyValueTypeImage || valueOrientation != copyValueOrientation || valueCategory != copyValueCategory) {
+        currentPage = 1 
+    }
+    
+
     let orienta = radioOrientacion()
     let color = checkColor()
     let imgType = document.querySelector("#imageType").value
     let imgCategory = document.querySelector("#imgCategory").value
-    let imagesPerPage = 21
+    let imagesPerPage = 6
     let query = `&q=${inputWithSpaces}&colors=${color}&image_type=${imgType}&category=${imgCategory}&orientation=${orienta}&per_page=${imagesPerPage}&page=${currentPage}`
     let url = (auth + query)
-    // console.log(url)
 
     let response = await fetch(url)
     let data = await response.json();
@@ -318,37 +307,48 @@ let searchImage = async () => {
     
 
     const images = getState();
-    // let images = data.hits
-    // console.log(images)
     getUserNames(images)
-
-    let imagesHTML = images.filter((item, idx) => idx < 21).map((item) => cardTemplate(item)).join('');
+    let imagesHTML = images.filter((item, idx) => idx < 9).map((item) => cardTemplate(item)).join('');
 
     const userNames = getUserNames(getState());
     selectAuthorDOM(userNames);
     const imageType = getImageType(getState());
     selectImageTypeDOM(imageType);
 
+    divImgList = document.getElementById("api-data")
+    divImgList.innerHTML = `<div class="mySpinner"><div></div><div></div></div>`
 
-    divListadoImagenes = document.getElementById("api-data")
-    divListadoImagenes.innerHTML = imagesHTML
-
-
-// console.log(myCount);
         
     totalPages = Math.ceil(data.totalHits / imagesPerPage)
     console.log("total: " + totalPages);
     console.log(url);
 
-    let divPagination = document.querySelector("#pagination")
-
     let pagPrev = (currentPage === 1)?`<li class="page-item disabled"><a class="page-link" href="#prev" onclick="pagPrev()"><< Prev</a></li>`:`<li class="page-item"><a class="page-link" href="#prev" onclick="pagPrev()"><< Prev</a></li>`
 
     let pagNext = (currentPage === totalPages)?`<li class="page-item disabled"><a class="page-link" href="#prev" onclick="pagNext()">Next >></a></li>`:`<li class="page-item"><a class="page-link" href="#prev" onclick="pagNext()">Next >></a></li>`
 
-    divPagination.innerHTML = `${pagPrev} ${pagNext}`
-}
+    copyInput = input
+    copyValueTypeImage = valueTypeImage
+    copyValueOrientation = valueOrientation
+    copyValueCategory = valueCategory
 
+    setTimeout(() => {
+        divImgList.innerHTML = imagesHTML
+        divPagination.style.display = "flex"
+        if (images.length != 0) {
+            divPagination.innerHTML = `${pagPrev} ${pagNext}`
+        } else {
+        mostrarError("#msg-error", "No items for this search")
+            divPagination.innerHTML = `                
+                <div class="d-flex flex-column align-self-center mb-5">
+                    <img src="./img/no-items.jpg" alt="No Items" width="426px" class="align-self-center">
+                    <h1 class="text-center">No items found</h1>
+                    <h3 class="text-center">Please, try to use a different search term</h3>
+                </div>`
+        }
+    }, 1500)
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
 const pagPrev = () => {
     
@@ -357,7 +357,6 @@ const pagPrev = () => {
     } else {
         currentPage--;
         searchImage();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 }
 const pagNext = () => {
@@ -367,7 +366,6 @@ const pagNext = () => {
     } else {
         currentPage++
         searchImage();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 }
 
