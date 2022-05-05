@@ -1,2 +1,2 @@
 # Javascript_Events_Bootstrap
-Module 1 > Project 2 > Sprint 1 || In the next days, you will have to solve some exercises. In the beginning, the problems will be small, and the more you will progress the bigger the problems will get. This will be the point where you will have to train your ability to divide a big problem into sub-problems and solve them.
+Module 1 > Project 2 > Sprint 2 || Create a page to display the content of your API. Create another HTML page (using Bootstrap) and connect it with the Home Page. You can decide what to put on this page, but later on, you must have a table or a list of data pulled from the API of your choice.
