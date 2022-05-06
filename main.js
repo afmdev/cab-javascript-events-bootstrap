@@ -170,8 +170,6 @@ const data = getState();
     insertImagesDOM(filteredItems);
 }
 
-
-
 //selects: CREAMOS LA ESTRUCTURA HTML PARA CADA ELEMENTO SELECT
 function selectAuthorDOM(data) {
     let author = ['<option selected value="all">All Authors</option>'];
@@ -180,6 +178,8 @@ function selectAuthorDOM(data) {
     });
     selectAuthor.innerHTML = author.join('');
 }
+
+
 
 // Selects: CREAMOS LA LÓGICA QUE RECORRERÁ "data" 
 function handleSelectType(e) {
@@ -190,7 +190,6 @@ value.toLowerCase() === 'all'? item: item.type.toLowerCase() === value.toLowerCa
 );
 insertImagesDOM(filteredItems);
 }
-
 //selects: CREAMOS LA ESTRUCTURA HTML PARA CADA ELEMENTO SELECT
 function selectImageTypeDOM(data) {
     let imageType = ['<option selected value="all">All Types</option>'];
@@ -199,6 +198,7 @@ function selectImageTypeDOM(data) {
     });
     selectType.innerHTML = imageType.join('');
 }
+
 
 function radioOrientacion() {
     let numOrientations = document.getElementsByName('flexRadioDefault');
@@ -221,7 +221,6 @@ function checkColor() {
     }
     return checkedColors
 }
-
 
 function checkLabel() {
     let colorSelected = document.getElementsByName('color')
@@ -285,6 +284,7 @@ let searchImage = async () => {
         mostrarError("#msg-error", "Please, type a searh term")
         return;
     }
+    
     if (input != copyInput || valueTypeImage != copyValueTypeImage || valueOrientation != copyValueOrientation || valueCategory != copyValueCategory) {
         currentPage = 1 
     }
@@ -336,12 +336,14 @@ let searchImage = async () => {
             divPagination.innerHTML = `${pagPrev} ${pagNext}`
         } else {
         mostrarError("#msg-error", "No items for this search")
-            divPagination.innerHTML = `                
+            divPagination.innerHTML = `   
+            <div class="container col-xs-1 col-sm-12 mb-4 mt-4">             
                 <div class="d-flex flex-column align-self-center mb-5">
                     <img src="./img/no-items.jpg" alt="No Items" width="426px" class="align-self-center">
                     <h1 class="text-center">No items found</h1>
                     <h3 class="text-center">Please, try to use a different search term</h3>
-                </div>`
+                </div>
+            </div>`
         }
     }, 1500)
     window.scrollTo({ top: 0, behavior: 'smooth' });

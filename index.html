@@ -66,8 +66,8 @@
         <div class="home-top-bg">
             <picture>
                 <source srcset="https://cdn.pixabay.com/index/2022/04/25/12-08-59-434_1920x550.jpg" media="(min-width: 1440px)">
-                <source srcset="https://cdn.pixabay.com/index/2022/04/25/12-08-59-434_640.jpg" media="(max-width: 640px)">
-                <img src="https://cdn.pixabay.com/index/2022/04/25/12-08-59-434_1440x550.jpg" class="heroBanner--3J9CL">
+                <source srcset="https://cdn.pixabay.com/index/2022/04/25/12-08-59-434_1920x550.jpg" media="(max-width: 640px)">
+                <img src="https://cdn.pixabay.com/index/2022/04/25/12-08-59-434_1920x550.jpg">
             </picture>
         </div>
         <div class="home-top-bg-overlay"></div>
@@ -117,7 +117,7 @@
                                 <h6>Category</h6>
                                 <select id="imgCategory" class="form-select" aria-label="Image Type">
                                     <option value="all" selected>All</option>
-                                    <option value="animals" onchange="searchImage()">Animals</option>
+                                    <option value="animals">Animals</option>
                                     <option value="backgrounds">Backgrounds</option>
                                     <option value="fashion">Fashion</option>
                                     <option value="nature">Nature</option>
@@ -132,42 +132,44 @@
                                 <h6>Color</h6>
                                 <div class="color-form">
                                         <div class="grid-colors">
+                                            <label class="color-select reset">
+                                                X
+                                                <input type="radio" name="color" value="all" onclick="checkLabel();searchImage()" checked="checked">
+                                            </label>
                                             <label class="color-select red">
-                                                <input type="checkbox" name="color" value="red" onclick="checkLabel();searchImage()" >
+                                                <input type="radio" name="color" value="red" onclick="checkLabel();searchImage()" >
                                             </label>
                                             <label class="color-select orange">
-                                                <input type="checkbox" name="color" value="orange" onclick="checkLabel();searchImage()">
+                                                <input type="radio" name="color" value="orange" onclick="checkLabel();searchImage()">
                                             </label>
                                             <label class="color-select yellow">
-                                                <input type="checkbox" name="color" value="yellow" onclick="checkLabel();searchImage()">
+                                                <input type="radio" name="color" value="yellow" onclick="checkLabel();searchImage()">
                                             </label>
                                             <label class="color-select green">
-                                                <input type="checkbox" name="color" value="green" onclick="checkLabel();searchImage()">
+                                                <input type="radio" name="color" value="green" onclick="checkLabel();searchImage()">
                                             </label>
                                             <label class="color-select turquoise">
-                                                <input type="checkbox" name="color" value="turquoise" onclick="checkLabel();searchImage()">
+                                                <input type="radio" name="color" value="turquoise" onclick="checkLabel();searchImage()">
                                             </label>
                                             <label class="color-select blue">
-                                                <input type="checkbox" name="color" value="blue" onclick="checkLabel();searchImage()">
+                                                <input type="radio" name="color" value="blue" onclick="checkLabel();searchImage()">
                                             </label>
                                             <label class="color-select lilac">
-                                                <input type="checkbox" name="color" value="lilac" onclick="checkLabel();searchImage()">
+                                                <input type="radio" name="color" value="lilac" onclick="checkLabel();searchImage()">
                                             </label>
                                             <label class="color-select pink">
-                                                <input type="checkbox" name="color" value="pink" onclick="checkLabel();searchImage()">
-                                            </label>
-                                            <label class="color-select white">
-                                                <input type="checkbox" name="color" value="white" onclick="checkLabel();searchImage()">
+                                                <input type="radio" name="color" value="pink" onclick="checkLabel();searchImage()">
                                             </label>
                                             <label class="color-select grey">
-                                                <input type="checkbox" name="color" value="gray" onclick="checkLabel();searchImage()">
+                                                <input type="radio" name="color" value="gray" onclick="checkLabel();searchImage()">
                                             </label>
                                             <label class="color-select black">
-                                                <input type="checkbox" name="color" value="black" onclick="checkLabel();searchImage()">
+                                                <input type="radio" name="color" value="black" onclick="checkLabel();searchImage()">
                                             </label>
                                             <label class="color-select brown">
-                                                <input type="checkbox" name="color" value="brown" onclick="checkLabel();searchImage()">
+                                                <input type="radio" name="color" value="brown" onclick="checkLabel();searchImage()">
                                             </label>
+                                            
                                         </div>
                                         <a id="clean-filter" href="#" onclick="refreshPage()">clean filters</a> 
                                 </div>

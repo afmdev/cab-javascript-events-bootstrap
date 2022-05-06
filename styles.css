@@ -261,7 +261,7 @@ color: #eee;
     row-gap: 5px;
 }
 
-label.color-select.checked {
+input[type=checkbox]:checked, label.color-select.checked {
     border: 2px solid #ff8a8a;
 }
 
@@ -279,6 +279,11 @@ label.color-select {
     overflow: hidden;
 }
 
+label.color-select.reset {
+    background: white;
+    color: red;
+    padding: 0px 0px 0px 7px;
+}
 label.color-select.red {
     background: #ff0000;
 }
