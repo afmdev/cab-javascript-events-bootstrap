@@ -27,7 +27,7 @@ const imgContainer = document.querySelector("#api-data");
 const selectAuthor = document.querySelector(".select-author");
 const selectType = document.querySelector(".select-type");
 const launchModal = document.querySelector(".modal-content")
-var input2 = document.getElementById("buscar");
+const input2 = document.getElementById("buscar");
 
 window.addEventListener("DOMContentLoaded", handleInitialLoad);
 input2.addEventListener("keyup", handleEnter);
@@ -147,15 +147,12 @@ function getImageType(data) {
 function handleSearchInputChange(e) {
     const value = e.target.value.toLowerCase();
     const data = getState();
-    const filteredItems = data.filter((item) => 
-        item.user.toLowerCase().includes(value)
-    );
+    const filteredItems = data.filter((item) => item.user.toLowerCase().includes(value));
     insertImagesDOM(filteredItems);
 }
 
 function handleEnter(e) { 
     if (e.key === "Enter") {
-    
     searchImage();
     }
 }
