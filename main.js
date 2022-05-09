@@ -4,10 +4,13 @@ let auth = url
 
 async function getData(url) {
 const response = await fetch(url);
-const data = await response.json();
-return data;
+    const data = await response.json();
+    console.log(data);
+    return data;
+
 }
 
+//FIRST LOAD
 async function handleInitialLoad() {
     const data = await getData(url);
     setState(data);
@@ -35,6 +38,8 @@ selectAuthor.addEventListener("change", handleSelectAuthor);
 selectType.addEventListener("change", handleSelectType);
 
 
+
+//SAVE DATA IN LOCAL
 function useState() {
 let _state = null;
 function getState() {return _state;}
@@ -46,7 +51,7 @@ const [getState, setState] = useState();
 
 
 
-
+//TEMPLATE FOR MY CARDS
 function cardTemplate(data) { //create function that return the html
     const { hits, id, user, likes, views, webformatURL, userImageURL } = data;
     return `
@@ -66,6 +71,8 @@ function cardTemplate(data) { //create function that return the html
     </div>`;
 }
 
+
+//TEMPLATE FOR MY MODAL
 function modalTemplate(data) { //create function that return the html
     const { id, user, tags, webformatURL, userImageURL, } = data;
     return `
@@ -73,7 +80,7 @@ function modalTemplate(data) { //create function that return the html
             <h5>${data.user}</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div id="myModalBody" class="modal-body">
+        <div id="myModalBody" class="modal-body">º
             
             <img src="${data.largeImageURL}" width="100%" class="modal-image">
             <div class="img-overlay">
@@ -84,10 +91,10 @@ function modalTemplate(data) { //create function that return the html
             <div class="tags"><p><i class="fa fa-tag"></i> ${data.tags}</p></div>
             </div>
             </div>
-            
         </div>`;
 }
 
+//TEMPLATE FOR MY RIGHTSIDEB BAR
 function rightbarTemplate(data) { //create function that return the html
     const { id, user, tags, webformatURL, userImageURL } = data;
     return `
@@ -106,16 +113,17 @@ function rightbarTemplate(data) { //create function that return the html
 }
 
 
-//
+//FUNCTION TO INJECT THE IMAGES INTO THE DOM
 function insertImagesDOM(data) {
-    let images = data.filter((item, idx) => idx < 9).map((item) => cardTemplate(item)).join('');
+    let images = data.filter((item, index) => index < 5).map((item) => cardTemplate(item)).join('');
+    // console.log(images);
     imgContainer.innerHTML = `<div class="mySpinner"><div></div><div></div></div>`
     setTimeout(() => {
         imgContainer.innerHTML = images
     }, 1500)
 }
 
-//
+//FUNCTION TO INJECT MODAL INTO THE DOM
 function insertModalDOM(data, e) {
     let imageId = e;
     // console.log(imageId);
@@ -126,23 +134,6 @@ function insertModalDOM(data, e) {
         } 
     });
 }
-
-
-
-
-// GET USER NAMES FROM DATA
-function getUserNames(data) {
-    const authors = data.map((item) => item.user);
-    const uniqAuthor = [...new Set(authors)];
-    return uniqAuthor;
-}
-// GET IMAGE TYPE FROM DATA
-function getImageType(data) {
-    const types = data.map((item) => item.type);
-    const uniqTypes = [...new Set(types)];
-    return uniqTypes;
-}
-
 
 function handleSearchInputChange(e) {
     const value = e.target.value.toLowerCase();
@@ -160,14 +151,16 @@ function handleEnter(e) {
 
 
 
-// Selects: CREAMOS LA LÓGICA QUE RECORRERÁ "data" 
-function handleSelectAuthor(e) {
-const value = e.currentTarget.value.toLowerCase();
-const data = getState();
-    const filteredItems = data.filter((item) => 
-    value.toLowerCase() === 'all' ? item : item.user.toLowerCase() === value.toLowerCase()
-    );
-    insertImagesDOM(filteredItems);
+
+
+
+
+
+// GET USER NAMES FROM DATA
+function getUserNames(data) {
+    const authors = data.map((item) => item.user);
+    const uniqAuthor = [...new Set(authors)];
+    return uniqAuthor;
 }
 
 //selects: CREAMOS LA ESTRUCTURA HTML PARA CADA ELEMENTO SELECT
@@ -179,16 +172,21 @@ function selectAuthorDOM(data) {
     selectAuthor.innerHTML = author.join('');
 }
 
-
-
 // Selects: CREAMOS LA LÓGICA QUE RECORRERÁ "data" 
-function handleSelectType(e) {
-const value = e.currentTarget.value.toLowerCase(); 
+function handleSelectAuthor(e) {
+const value = e.currentTarget.value.toLowerCase();
 const data = getState();
-const filteredItems = data.filter((item) =>
-value.toLowerCase() === 'all'? item: item.type.toLowerCase() === value.toLowerCase()
-);
-insertImagesDOM(filteredItems);
+    const filteredItems = data.filter((item) => value.toLowerCase() === 'all' ? item : item.user.toLowerCase() === value.toLowerCase()
+    );
+    insertImagesDOM(filteredItems);
+}
+
+
+// GET IMAGE TYPE FROM DATA
+function getImageType(data) {
+    const types = data.map((item) => item.type);
+    const uniqTypes = [...new Set(types)];
+    return uniqTypes;
 }
 //selects: CREAMOS LA ESTRUCTURA HTML PARA CADA ELEMENTO SELECT
 function selectImageTypeDOM(data) {
@@ -198,6 +196,20 @@ function selectImageTypeDOM(data) {
     });
     selectType.innerHTML = imageType.join('');
 }
+// Selects: CREAMOS LA LÓGICA QUE RECORRERÁ "data" 
+function handleSelectType(e) {
+const value = e.currentTarget.value.toLowerCase(); 
+const data = getState();
+const filteredItems = data.filter((item) => value.toLowerCase() === 'all'? item: item.type.toLowerCase() === value.toLowerCase()
+);
+insertImagesDOM(filteredItems);
+}
+
+
+
+
+
+
 
 
 function radioOrientacion() {
@@ -209,6 +221,8 @@ function radioOrientacion() {
     // console.log(result);
     return result
 }
+
+
 
 function checkColor() {
     let colorSelected = document.getElementsByName('color');
