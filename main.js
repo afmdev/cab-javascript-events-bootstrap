@@ -1,20 +1,21 @@
+//GLOBAL VARIABLES
+
 let url = "https://pixabay.com/api/?key=26639219-c988cadef2f5d334da840ad52"
 let auth = url
 
-
+//ASYNC FETCH 
 async function getData(url) {
 const response = await fetch(url);
     const data = await response.json();
-    console.log(data);
     return data;
 
 }
 
-//FIRST LOAD
+//FIRST LOAD TO SHOW THE GRID AND SIDEBAR
 async function handleInitialLoad() {
     const data = await getData(url);
-    setState(data);
 
+    setState(data);
     const userNames = getUserNames(getState());
     selectAuthorDOM(userNames);
     const imageType = getImageType(getState());
@@ -32,6 +33,8 @@ const selectType = document.querySelector(".select-type");
 const launchModal = document.querySelector(".modal-content")
 const input2 = document.getElementById("buscar");
 
+
+//EVENTLISTENERS
 window.addEventListener("DOMContentLoaded", handleInitialLoad);
 input2.addEventListener("keyup", handleEnter);
 selectAuthor.addEventListener("change", handleSelectAuthor);
@@ -39,19 +42,18 @@ selectType.addEventListener("change", handleSelectType);
 
 
 
-//SAVE DATA IN LOCAL
+//FUNCTION TO STORE "data" IN A LOCAL VARIABLE TO USE IT LATER
 function useState() {
 let _state = null;
 function getState() {return _state;}
 function setState(data) {_state = [...data.hits];}
 return [getState, setState];
 }
-
 const [getState, setState] = useState();
 
 
 
-//TEMPLATE FOR MY CARDS
+//TEMPLATE TO CREATE IMAGE GRID
 function cardTemplate(data) { //create function that return the html
     const { hits, id, user, likes, views, webformatURL, userImageURL } = data;
     return `
@@ -72,7 +74,7 @@ function cardTemplate(data) { //create function that return the html
 }
 
 
-//TEMPLATE FOR MY MODAL
+//TEMPLATE TO CREATE THE MODAL
 function modalTemplate(data) { //create function that return the html
     const { id, user, tags, webformatURL, userImageURL, } = data;
     return `
@@ -80,7 +82,7 @@ function modalTemplate(data) { //create function that return the html
             <h5>${data.user}</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div id="myModalBody" class="modal-body">º
+        <div id="myModalBody" class="modal-body">
             
             <img src="${data.largeImageURL}" width="100%" class="modal-image">
             <div class="img-overlay">
@@ -135,12 +137,12 @@ function insertModalDOM(data, e) {
     });
 }
 
-function handleSearchInputChange(e) {
-    const value = e.target.value.toLowerCase();
-    const data = getState();
-    const filteredItems = data.filter((item) => item.user.toLowerCase().includes(value));
-    insertImagesDOM(filteredItems);
-}
+// function handleSearchInputChange(e) {
+//     const value = e.target.value.toLowerCase();
+//     const data = getState();
+//     const filteredItems = data.filter((item) => item.user.toLowerCase().includes(value));
+//     insertImagesDOM(filteredItems);
+// }
 
 function handleEnter(e) { 
     if (e.key === "Enter") {
@@ -150,20 +152,14 @@ function handleEnter(e) {
 
 
 
-
-
-
-
-
-
-// GET USER NAMES FROM DATA
+// GET AUTHOR NAMES 
 function getUserNames(data) {
     const authors = data.map((item) => item.user);
     const uniqAuthor = [...new Set(authors)];
     return uniqAuthor;
 }
 
-//selects: CREAMOS LA ESTRUCTURA HTML PARA CADA ELEMENTO SELECT
+//FUNCTION TO LOOP "data" AND TO INJECT THE AUTHOR NAMES INTO THE DOM
 function selectAuthorDOM(data) {
     let author = ['<option selected value="all">All Authors</option>'];
     data.forEach((item) => {
@@ -172,7 +168,7 @@ function selectAuthorDOM(data) {
     selectAuthor.innerHTML = author.join('');
 }
 
-// Selects: CREAMOS LA LÓGICA QUE RECORRERÁ "data" 
+//FUNCTOIN ATTACHED TO A EVENTLISTENER TO FILTER THE SELECTION WITH THE ITEMS STORED IN "data"
 function handleSelectAuthor(e) {
 const value = e.currentTarget.value.toLowerCase();
 const data = getState();
@@ -182,13 +178,14 @@ const data = getState();
 }
 
 
-// GET IMAGE TYPE FROM DATA
+//GET IMAGE TYPE NAMES
 function getImageType(data) {
     const types = data.map((item) => item.type);
     const uniqTypes = [...new Set(types)];
     return uniqTypes;
 }
-//selects: CREAMOS LA ESTRUCTURA HTML PARA CADA ELEMENTO SELECT
+
+//FUNCTION TO LOOP "data" AND TOINJECT THE IMAGE TYPE NAMES INTO THE DOM
 function selectImageTypeDOM(data) {
     let imageType = ['<option selected value="all">All Types</option>'];
     data.forEach((item) => {
@@ -196,7 +193,8 @@ function selectImageTypeDOM(data) {
     });
     selectType.innerHTML = imageType.join('');
 }
-// Selects: CREAMOS LA LÓGICA QUE RECORRERÁ "data" 
+
+//FUNCTION ATTACHED TO A EVENTLISTENER TO FILTER THE SELECTION WITH THE ITEMS STORED IN "data"
 function handleSelectType(e) {
 const value = e.currentTarget.value.toLowerCase(); 
 const data = getState();
@@ -206,12 +204,7 @@ insertImagesDOM(filteredItems);
 }
 
 
-
-
-
-
-
-
+//FUNCTION TO DETECT WHICH RADIO WAS SELECTED AND RETURNING THE RESULT OF THE SELECTION
 function radioOrientacion() {
     let numOrientations = document.getElementsByName('flexRadioDefault');
     let result = "all";
@@ -223,7 +216,7 @@ function radioOrientacion() {
 }
 
 
-
+//FUNCTION TO DETECT WHICH RADIO WAS SELECTED AND RETURNING THE RESULT OF THE SELECTION
 function checkColor() {
     let colorSelected = document.getElementsByName('color');
     let checked = []
@@ -236,12 +229,12 @@ function checkColor() {
     return checkedColors
 }
 
+//FUNCTION TO ADD A CLASS IN THE SELECTED COLOR
 function checkLabel() {
     let colorSelected = document.getElementsByName('color')
     let label = document.getElementsByClassName('color-select')
     let filter = document.getElementById("clean-filter")
     filter.style.opacity = "1";
-    let checked = []
     for (let i = 0; i < colorSelected.length; i++) {
         if (colorSelected[i].checked == true) {
             label[i].classList.add("checked")
@@ -254,9 +247,10 @@ function checkLabel() {
 }
 
 
+//FUNCTION TO 
 let mostPopularItem = async () => {
     let mostPopularTable = document.querySelector("#popular-list")
-    let imagesPerPages = 200
+    let imagesPerPages = 20
     let query = `&per_page=${imagesPerPages}`
     let url = (auth + query)
     console.log(url)
@@ -267,7 +261,7 @@ let mostPopularItem = async () => {
     let images = getState()
 
     images.sort((a,b)=> (a.likes < b.likes ? 1 : -1))
-    let likes = images.filter((item, idx) => idx < 3).map((item) => rightbarTemplate(item)).join('');
+    let likes = images.filter((item, idx) => idx < 20).map((item) => rightbarTemplate(item)).join('');
     mostPopularTable.innerHTML = likes;
 }
 
@@ -275,6 +269,8 @@ let mostPopularItem = async () => {
 const refreshPage =  () => {
     window.location.reload();
 }
+
+
 
 let currentPage = 1
 let totalPages = 0
@@ -284,8 +280,8 @@ let copyValueOrientation = ""
 let copyValueCategory = ""
 let copyValueColor = ""
 
+//FUNCTION TO DISPLAY IMAGES BASED ON A SEARCH TERM AND ALASO SOME FILTERS
 let searchImage = async () => {
-
     let input = document.querySelector("#buscar").value
     let valueTypeImage = document.querySelector("#imageType").value
     let valueOrientation = document.querySelector('input[name="flexRadioDefault"]:checked').value
@@ -299,6 +295,7 @@ let searchImage = async () => {
         return;
     }
     
+    //SOME CONDITIONS TO GENERATE THE DEFAULT URL OR TO POPULATE IT BY TAKING VALUES FROM THE FORM
     if (input != copyInput || valueTypeImage != copyValueTypeImage || valueOrientation != copyValueOrientation || valueCategory != copyValueCategory) {
         currentPage = 1 
     }
@@ -319,7 +316,7 @@ let searchImage = async () => {
 
     const images = getState();
     getUserNames(images)
-    let imagesHTML = images.filter((item, idx) => idx < 9).map((item) => cardTemplate(item)).join('');
+    let imagesHTML = images.filter((item, index) => index < 9).map((item) => cardTemplate(item)).join('');
 
     const userNames = getUserNames(getState());
     selectAuthorDOM(userNames);
@@ -382,7 +379,7 @@ const pagNext = () => {
     }
 }
 
-
+//FUNCTION TO SHOW POPUP ERROR FOR 2 SECONDS
 const mostrarError = (element, message) => {
     divError = document.querySelector(element)
     divError.innerHTML = `<div class="alert alert-danger d-flex justify-content-center mt-4 w-50" role="alert">${message}</div>`
