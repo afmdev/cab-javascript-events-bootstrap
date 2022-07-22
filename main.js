@@ -115,9 +115,9 @@ function rightbarTemplate(data) { //create function that return the html
 }
 
 
-//FUNCTION TO INJECT THE IMAGES INTO THE DOM
+//FUNCTION TO INJECT THE IMAGES INTO THE DOM THE FIRST TIME
 function insertImagesDOM(data) {
-	let images = data.filter((item, index) => index < 5).map((item) => cardTemplate(item)).join('');
+	let images = data.filter((item, index) => index < 9).map((item) => cardTemplate(item)).join('');
 	// console.log(images);
 	imgContainer.innerHTML = `<div class="mySpinner"><div></div><div></div></div>`
 	setTimeout(() => {
@@ -247,7 +247,7 @@ function checkLabel() {
 }
 
 
-//FUNCTION TO 
+//FUNCTION TO FETCH MOST POPULAR IMAGES
 let mostPopularItem = async () => {
 	let mostPopularTable = document.querySelector("#popular-list")
 	let imagesPerPages = 20
@@ -316,7 +316,7 @@ let searchImage = async () => {
 
 	const images = getState();
 	getUserNames(images)
-	let imagesHTML = images.filter((item, index) => index < 9).map((item) => cardTemplate(item)).join('');
+	let imagesHTML = images.filter((item, index) => index < 20).map((item) => cardTemplate(item)).join('');
 
 	const userNames = getUserNames(getState());
 	selectAuthorDOM(userNames);
